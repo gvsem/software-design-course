@@ -1,5 +1,7 @@
 # Задание №1. Задача про CLI
 
+[Ссылка на Google Doc](https://docs.google.com/document/d/1JMq1cHLp4tgWHyhUFXQKZcCKc6sGk20dQIULrpU85RU/edit)
+
 Требования и нюансы bash:
 - команды `cat`, `echo`, `wc`, `pwd`, `exit`
 - 'одинарные' и "двойные" кавычки (full and weak quoting)
