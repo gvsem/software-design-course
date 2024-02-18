@@ -1,6 +1,6 @@
 # Задание №1. Задача про CLI
 
-#### Команда №1 (MSE'23)
+### Команда №1 (MSE'23)
 - Георгий Семенов
 - Максим Васильев
 - Дмитрий Патока
@@ -8,11 +8,13 @@
 
 ### Служебные ссылки
 
-[Ссылка на Google Doc](https://docs.google.com/document/d/1JMq1cHLp4tgWHyhUFXQKZcCKc6sGk20dQIULrpU85RU/edit)
+- [Ссылка на Google Doc](https://docs.google.com/document/d/1JMq1cHLp4tgWHyhUFXQKZcCKc6sGk20dQIULrpU85RU/edit)
 
-Статьи об устройстве bash (Tor): [1](https://medium.com/geekculture/an-overview-of-the-working-of-the-bash-shell-f063e7f09945) и [2](https://medium.com/@hichamelmefeddel/building-a-shell-commands-interpreter-similar-to-bash-from-scratch-with-c-part-1-theory-64fdc141617d)
+- Статьи об устройстве bash (Tor): [1](https://medium.com/geekculture/an-overview-of-the-working-of-the-bash-shell-f063e7f09945) и [2](https://medium.com/@hichamelmefeddel/building-a-shell-commands-interpreter-similar-to-bash-from-scratch-with-c-part-1-theory-64fdc141617d)
 
-Требования и нюансы bash:
+### Цель работы
+
+**Требования и нюансы bash**:
 - команды `cat`, `echo`, `wc`, `pwd`, `exit`
 - 'одинарные' и "двойные" кавычки (full and weak quoting)
 - команды вида `var=value`, оператор `$var`
@@ -25,16 +27,10 @@
 
 **Результат**: .md или .pdf файл в отдельной ветке, в пулл-реквесте, приложенный в LMS.
 
-### Поставленные задачи
+### Поставленные задачи и результаты
 
-- Составить словарь предметной области (aka [Ubiquitous Language = Единый Язык](https://habr.com/ru/articles/232881/))
+- Составить словарь предметной области (aka [Ubiquitous Language = Единый Язык](https://habr.com/ru/articles/232881/)) | [Артефакт](language.md]
 
-- Описать процесс работы интерпретатора
+- Описать процесс работы интерпретатора | [Артефакт](system-description.md)
 
-- Разработать диаграмму классов и диаграмму компонентов
-
-### Результаты
-
-
-
-
+- Разработать диаграмму классов и диаграмму компонентов | [Диаграмма классов](class.png) | [Диаграмма компонентов](component.png)
