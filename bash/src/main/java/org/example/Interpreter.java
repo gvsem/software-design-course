@@ -9,6 +9,8 @@ import org.example.interfaces.IParser;
 import org.example.parsing.Parser;
 import org.example.parsing.exception.ParseException;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Scanner;
 
 public class Interpreter {
@@ -21,6 +23,8 @@ public class Interpreter {
 
         Scanner scanner = new Scanner(System.in);
         System.out.print("bashik > ");
+
+        System.out.println(Paths.get("sh").toAbsolutePath());
 
         while (scanner.hasNextLine()) {
             String str = scanner.nextLine();

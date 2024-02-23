@@ -7,7 +7,7 @@ import org.example.interfaces.IExecutor;
 
 public class UnresolvedCommandExpression extends AbstractExpression {
 
-    private final String command;
+    protected final String command;
 
     public UnresolvedCommandExpression(String command) {
         this.command = command;

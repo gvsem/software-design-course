@@ -5,20 +5,15 @@ import org.example.execution.context.Context;
 import org.example.execution.exception.ExecutionException;
 import org.example.interfaces.IExecutor;
 
-public class ResolvedCommandExpression extends AbstractExpression {
-
-    private final String command;
+public class ResolvedCommandExpression extends UnresolvedCommandExpression {
 
     public ResolvedCommandExpression(String command) {
-        this.command = command;
-    }
-
-    public String getCommand() {
-        return command;
+        super(command);
     }
 
     @Override
     public int run(IExecutor executor, Context context) throws ExecutionException {
         throw new UnsupportedOperationException();
     }
+
 }

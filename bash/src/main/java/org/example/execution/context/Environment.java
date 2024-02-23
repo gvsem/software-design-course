@@ -14,7 +14,13 @@ public class Environment {
     }
 
     public String get(String variable) {
-        return this.variables.getOrDefault(variable, "");
+        if (this.variables.containsKey(variable)) {
+            return this.variables.getOrDefault(variable, "");
+        } else if (System.getenv().containsKey(variable)) {
+            return System.getenv(variable);
+        } else {
+            return "";
+        }
     }
 
 }

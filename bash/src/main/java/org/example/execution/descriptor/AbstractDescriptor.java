@@ -1,6 +1,8 @@
 package org.example.execution.descriptor;
 
-public abstract class AbstractDescriptor {
+import org.example.interfaces.IDescriptor;
+
+public abstract class AbstractDescriptor implements IDescriptor {
 
     protected AbstractDescriptor(Type type) {
         this.type = type;
