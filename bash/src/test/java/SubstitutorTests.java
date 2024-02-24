@@ -4,7 +4,7 @@ import org.example.ast.concrete.UnresolvedCommandExpression;
 import org.example.substitution.Substitutor;
 import org.junit.jupiter.api.Test;
 
-public class SubstitutorTest {
+public class SubstitutorTests {
 
     @Test
     void substitutionWithSingleAndDoubleQuotes() {

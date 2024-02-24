@@ -1,7 +1,13 @@
 package org.example.ast.base;
 
+import lombok.Getter;
+
 public abstract class AbstractBinaryExpression extends AbstractExpression {
+
+    @Getter
     protected final AbstractExpression left;
+
+    @Getter
     protected final AbstractExpression right;
 
     public AbstractBinaryExpression(AbstractExpression left, AbstractExpression right) {

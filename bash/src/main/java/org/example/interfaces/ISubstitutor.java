@@ -5,5 +5,5 @@ import org.example.ast.concrete.UnresolvedCommandExpression;
 import org.example.execution.context.Context;
 
 public interface ISubstitutor {
-    ResolvedCommandExpression resolve(UnresolvedCommandExpression expression, Context ctx);
+    ResolvedCommandExpression resolve(UnresolvedCommandExpression expression, Context context);
 }
