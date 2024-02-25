@@ -10,9 +10,10 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.List;
 
-public class CatCommand extends EmbeddedCommand {
+public class WcCommand extends EmbeddedCommand {
 
     @Override
     public int run(IExecutor executor, Context context) throws ExecutionException {
@@ -29,7 +30,11 @@ public class CatCommand extends EmbeddedCommand {
             }
 
             String content = new String(Files.readAllBytes(path));
-            context.getDescriptors().stdout.print(content);
+            String[] lines = content.split("\r\n|\r|\n");
+            String[] words = content.split("\\s+");
+            int bytes = Files.readAllBytes(path).length;
+
+            context.getDescriptors().stdout.print(lines.length + " " + words.length + " " + bytes);
 
         } catch (IOException e) {
             return 1;
@@ -38,7 +43,8 @@ public class CatCommand extends EmbeddedCommand {
         return 0;
     }
 
-    public CatCommand(List<String> commandLineArguments, List<EnvironmentVariable> environmentVariables) {
-        super("cat", commandLineArguments, environmentVariables);
+    public WcCommand(List<String> commandLineArguments, List<EnvironmentVariable> environmentVariables) {
+        super("wc", commandLineArguments, environmentVariables);
     }
 }
+
