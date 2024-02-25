@@ -1,14 +1,22 @@
 package org.example.ast.concrete;
 
 import org.example.ast.base.AbstractExpression;
+import org.example.ast.concrete.token.AbstractToken;
 import org.example.execution.context.Context;
 import org.example.execution.exception.ExecutionException;
 import org.example.interfaces.IExecutor;
 
-public class ResolvedCommandExpression extends UnresolvedCommandExpression {
+import java.util.List;
 
-    public ResolvedCommandExpression(String command) {
-        super(command);
+import lombok.Getter;
+
+public class ResolvedCommandExpression extends AbstractExpression {
+
+    @Getter
+    private final List<AbstractToken> tokens;
+
+    public ResolvedCommandExpression(List<AbstractToken> tokens) {
+        this.tokens = tokens;
     }
 
     @Override
