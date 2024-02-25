@@ -1,15 +1,17 @@
 package org.example.ast.concrete;
 
+
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.example.ast.base.AbstractExpression;
 import org.example.execution.context.Context;
 import org.example.execution.exception.ExecutionException;
 import org.example.interfaces.IExecutor;
 
-import lombok.Getter;
-
+@EqualsAndHashCode(callSuper = false)
+@Data
 public class UnresolvedCommandExpression extends AbstractExpression {
 
-    @Getter
     protected final String command;
 
     public UnresolvedCommandExpression(String command) {
