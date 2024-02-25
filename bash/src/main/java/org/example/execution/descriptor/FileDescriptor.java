@@ -6,6 +6,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -45,6 +46,20 @@ public class FileDescriptor extends AbstractDescriptor {
             new FileOutputStream(file).close();
         } catch (IOException e) {
             throw new ExecutionException("Failed to create output file: " + file.getName(), e);
+        }
+    }
+
+    @Override
+    public void print(String x) throws IOException {
+        if (this.getType().equals(Type.InputOutput) || this.getType().equals(Type.Output)) {
+            try (FileWriter fw = new FileWriter(file, true)) {
+                BufferedWriter bw = new BufferedWriter(fw);
+                bw.write(x);
+            }
+        } else if (this.getType().equals(Type.Input)) {
+            throw new UnsupportedOperationException("Writing to input descriptor is prohibited");
+        } else {
+            throw new UnsupportedOperationException("Unknown descriptor type");
         }
     }
 }

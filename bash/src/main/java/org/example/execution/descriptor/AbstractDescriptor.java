@@ -2,6 +2,8 @@ package org.example.execution.descriptor;
 
 import org.example.interfaces.IDescriptor;
 
+import java.io.IOException;
+
 public abstract class AbstractDescriptor implements IDescriptor {
 
     protected AbstractDescriptor(Type type) {
@@ -18,6 +20,12 @@ public abstract class AbstractDescriptor implements IDescriptor {
 
     public final Type getType() {
         return this.type;
+    }
+
+    public abstract void print(String x) throws IOException;
+
+    public void println(String x) throws IOException {
+        print(x + "\n");
     }
 
 }
