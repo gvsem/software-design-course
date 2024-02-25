@@ -1,8 +1,17 @@
+import org.example.ast.concrete.ResolvedCommandExpression;
 import org.example.ast.concrete.UnresolvedCommandExpression;
+import org.example.ast.concrete.token.EnvVariableToken;
+import org.example.ast.concrete.token.StringToken;
+import org.example.command.Command;
+import org.example.command.EnvironmentVariable;
 import org.example.interfaces.IParser;
 import org.example.parsing.Parser;
 import org.example.parsing.exception.ParseException;
 import org.junit.jupiter.api.Test;
+
+import java.nio.file.Path;
+import java.util.Collections;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -331,6 +340,130 @@ public class ParserTests {
                 assertDoesNotThrow(() ->
                         PARSER.parse(" \t cmd1 \n  -f \"  ' \" \r  -t '\"' -u \t\n {   a (0 +    1  \\ {}) } ")
                 )
+        );
+    }
+    
+    
+    @Test
+    void testParseResolvedCE_NoErrors() {
+        assertAll(
+                () -> assertEquals(
+                        new Command(
+                                Path.of("echo"),
+                                List.of("aaa"),
+                                List.of(new EnvironmentVariable("c", "1"))
+                        ),
+                        assertDoesNotThrow(() ->
+                                PARSER.parse(new ResolvedCommandExpression(List.of(
+                                        new EnvVariableToken("c", "1"),
+                                        new StringToken("echo"),
+                                        new StringToken("aaa")
+                                )))
+                        ),
+                        "1 arg, 1 var"
+                ),
+                () -> assertEquals(
+                        new Command(
+                                Path.of("echo"),
+                                List.of("aaa", "bbb", "c"),
+                                List.of(new EnvironmentVariable("c", "1"))
+                        ),
+                        assertDoesNotThrow(() ->
+                                PARSER.parse(new ResolvedCommandExpression(List.of(
+                                        new EnvVariableToken("c", "1"),
+                                        new StringToken("echo"),
+                                        new StringToken("aaa"),
+                                        new StringToken("bbb"),
+                                        new StringToken("c")
+                                )))
+                        ),
+                        "3 args, 1 var"
+                ),
+                () -> assertEquals(
+                        new Command(
+                                Path.of("echo"),
+                                List.of("aaa"),
+                                List.of(new EnvironmentVariable("c", "1"), new EnvironmentVariable("d", "e!"))
+                        ),
+                        assertDoesNotThrow(() ->
+                                PARSER.parse(new ResolvedCommandExpression(List.of(
+                                        new EnvVariableToken("c", "1"),
+                                        new EnvVariableToken("d", "e!"),
+                                        new StringToken("echo"),
+                                        new StringToken("aaa")
+                                )))
+                        ),
+                        "1 arg, 2 vars"
+                ),
+                () -> assertEquals(
+                        new Command(
+                                Path.of("echo"),
+                                List.of("aaa"),
+                                Collections.emptyList()
+                        ),
+                        assertDoesNotThrow(() ->
+                                PARSER.parse(new ResolvedCommandExpression(List.of(
+                                        new StringToken("echo"),
+                                        new StringToken("aaa")
+                                )))
+                        ),
+                        "1 arg, no vars"
+                ),
+                () -> assertEquals(
+                        new Command(
+                                Path.of("echo"),
+                                Collections.emptyList(),
+                                List.of(new EnvironmentVariable("c", "1"), new EnvironmentVariable("d", "e!"))
+                        ),
+                        assertDoesNotThrow(() ->
+                                PARSER.parse(new ResolvedCommandExpression(List.of(
+                                        new EnvVariableToken("c", "1"),
+                                        new EnvVariableToken("d", "e!"),
+                                        new StringToken("echo")
+                                )))
+                        ),
+                        "no args, 2 vars"
+                ),
+                () -> assertEquals(
+                        new Command(
+                                Path.of("pwd"),
+                                Collections.emptyList(),
+                                Collections.emptyList()
+                        ),
+                        assertDoesNotThrow(() ->
+                                PARSER.parse(new ResolvedCommandExpression(List.of(
+                                        new StringToken("pwd")
+                                )))
+                        ),
+                        "no args, no vars"
+                ),
+                () -> assertEquals(
+                        new Command(
+                                null,
+                                Collections.emptyList(),
+                                Collections.emptyList()
+                        ),
+                        assertDoesNotThrow(() ->
+                                PARSER.parse(new ResolvedCommandExpression(Collections.emptyList()))
+                        ),
+                        "empty"
+                )
+        );
+    }
+    
+    
+    @Test
+    void testParseResolvedCE_Errors() {
+        assertEquals(
+                "Unexpected non-string token",
+                assertThrows(ParseException.class, () ->
+                        PARSER.parse(new ResolvedCommandExpression(List.of(
+                                new EnvVariableToken("c", "1"),
+                                new StringToken("echo"),
+                                new EnvVariableToken("d", "2"),
+                                new StringToken("aaa")
+                        )))
+                ).getMessage()
         );
     }
 }

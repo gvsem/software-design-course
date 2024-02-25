@@ -4,10 +4,18 @@ package org.example.parsing;
 import org.example.ast.base.AbstractExpression;
 import org.example.ast.concrete.ResolvedCommandExpression;
 import org.example.ast.concrete.UnresolvedCommandExpression;
+import org.example.ast.concrete.token.AbstractToken;
+import org.example.ast.concrete.token.EnvVariableToken;
+import org.example.ast.concrete.token.StringToken;
 import org.example.command.Command;
+import org.example.command.EnvironmentVariable;
 import org.example.interfaces.IParser;
 import org.example.parsing.exception.ParseException;
 import org.example.parsing.preprocessing.PreprocessingState;
+
+import java.nio.file.Path;
+import java.util.Collections;
+import java.util.List;
 
 
 public class Parser implements IParser {
@@ -19,7 +27,26 @@ public class Parser implements IParser {
     
     @Override
     public Command parse(ResolvedCommandExpression expression) throws ParseException {
-        throw new UnsupportedOperationException();
+        List<AbstractToken> tokens = expression.getTokens();
+        List<EnvironmentVariable> vars = tokens.stream()
+                .takeWhile(token -> token instanceof EnvVariableToken)
+                .map(EnvVariableToken.class::cast)
+                .map(evt -> new EnvironmentVariable(evt.getVariableName(), evt.getValue()))
+                .toList();
+        
+        List<String> strings;
+        try {
+            strings = tokens.subList(vars.size(), tokens.size()).stream()
+                    .map(token -> ((StringToken) token).getValue())
+                    .toList();
+        } catch (ClassCastException e) {
+            throw new ParseException("Unexpected non-string token", e);
+        }
+        
+        Path executable = strings.isEmpty()? null : Path.of(strings.get(0));
+        List<String> args = strings.isEmpty()? Collections.emptyList() : strings.subList(1, strings.size());
+        
+        return new Command(executable, args, vars);
     }
     
     
@@ -30,15 +57,12 @@ public class Parser implements IParser {
         StringBuilder preprocessed = new StringBuilder();
         final String exMsg = "Mismatched parentheses / braces / quotes in \"" + expression + "\"";
         
-        char c = '\0';
+        char c;
         PreprocessingState state = new PreprocessingState();
         for (int i = 0; i < expression.length(); i++) {
             c = expression.charAt(i);
             
-            if (Character.isWhitespace(c) && state.isSpace())
-                continue;
-            
-            else {
+            if (!Character.isWhitespace(c) || !state.isSpace()) {
                 preprocessed.append(Character.isWhitespace(c) && state.peek() != '\'' && state.peek() != '\"'? ' ' : c);
                 
                 try {
