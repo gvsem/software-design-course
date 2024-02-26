@@ -1,5 +1,7 @@
 package org.example.command;
 
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import org.example.annotations.Nullable;
 import org.example.interfaces.Executable;
 import org.example.execution.context.Context;
@@ -10,6 +12,8 @@ import java.nio.file.Path;
 import java.util.List;
 import java.util.Optional;
 
+@EqualsAndHashCode
+@ToString
 public class Command implements Executable {
     private final @Nullable Path executable;
     private final List<String> commandLineArguments;
