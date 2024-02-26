@@ -2,7 +2,7 @@ package org.example.ast.concrete.token;
 
 import lombok.Getter;
 
-public class StringToken extends AbstractToken{
+public class StringToken extends AbstractToken {
     @Getter
     protected final String value;
 

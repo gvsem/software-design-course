@@ -52,7 +52,7 @@ public class ExecutorTests {
 //    @Test
 //    void systemCommandWithShellStdout() throws ExecutionException, IOException {
 //
-//        MockOutputStream mockOutputStream = new MockOutputStream();
+//        util.MockOutputStream mockOutputStream = new util.MockOutputStream();
 //        System.setOut(mockOutputStream.getPrintStream());
 //
 //        Command command = new Command(Path.of("cat"), List.of("src/test/resources/three-lines.txt"), List.of());

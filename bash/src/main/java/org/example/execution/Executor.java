@@ -5,6 +5,10 @@ import org.example.command.EnvironmentVariable;
 import org.example.execution.context.Context;
 import org.example.execution.exception.ExecutionException;
 import org.example.interfaces.IExecutor;
+import org.example.interfaces.IParser;
+import org.example.interfaces.ISubstitutor;
+import org.example.parsing.Parser;
+import org.example.substitution.Substitutor;
 
 import java.io.File;
 import java.io.IOException;
@@ -16,9 +20,20 @@ import java.util.Optional;
 public class Executor implements IExecutor {
 
     private final EmbeddedExecutor embeddedExecutor = new EmbeddedExecutor();
+    private final Substitutor substitutor = new Substitutor();
+    private final Parser parser = new Parser();
 
     public Executor() {
 
+    }
+
+    @Override
+    public ISubstitutor getSubstitutor() {
+        return this.substitutor;
+    }
+
+    public IParser getParser() {
+        return this.parser;
     }
 
     @Override

@@ -7,22 +7,19 @@ import org.example.execution.exception.ExecutionException;
 import org.example.interfaces.IExecutor;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
 
-public class PwdCommand extends EmbeddedCommand {
+public class EmptyCommand extends EmbeddedCommand {
 
     @Override
     public int run(IExecutor executor, Context context) throws ExecutionException {
-        try {
-            context.getDescriptors().stdout.println(context.getWorkingDirectory().toAbsolutePath().toString());
-        } catch (IOException e) {
-            return 1;
-        }
         return 0;
     }
 
-    public PwdCommand(List<String> commandLineArguments, List<EnvironmentVariable> environmentVariables) {
-        super("echo", commandLineArguments, environmentVariables);
+    public EmptyCommand(List<String> commandLineArguments, List<EnvironmentVariable> environmentVariables) {
+        super("", commandLineArguments, environmentVariables);
     }
 }
 

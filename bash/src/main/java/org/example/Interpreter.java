@@ -9,6 +9,7 @@ import org.example.interfaces.IParser;
 import org.example.parsing.Parser;
 import org.example.parsing.exception.ParseException;
 
+import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Scanner;
@@ -24,8 +25,6 @@ public class Interpreter {
         Scanner scanner = new Scanner(System.in);
         System.out.print("bashik > ");
 
-        System.out.println(Paths.get("sh").toAbsolutePath());
-
         while (scanner.hasNextLine()) {
             String str = scanner.nextLine();
             if (str.trim().equals("exit")) {
@@ -35,6 +34,8 @@ public class Interpreter {
             try {
                 AbstractExpression expression = parser.parse(str);
                 expression.run(executor, context);
+            } catch (IOException e) {
+                System.out.println("\tbash : broken descriptor");
             } catch (ParseException e) {
                 System.out.println("\tbash syntax: " + e.getMessage());
             } catch (ExecutionException e) {

@@ -4,6 +4,9 @@ import org.example.ast.concrete.token.EnvVariableToken;
 import org.example.ast.concrete.token.StringToken;
 import org.example.command.Command;
 import org.example.command.EnvironmentVariable;
+import org.example.command.embedded.EchoCommand;
+import org.example.command.embedded.EmptyCommand;
+import org.example.command.embedded.PwdCommand;
 import org.example.interfaces.IParser;
 import org.example.parsing.Parser;
 import org.example.parsing.exception.ParseException;
@@ -348,8 +351,7 @@ public class ParserTests {
     void testParseResolvedCE_NoErrors() {
         assertAll(
                 () -> assertEquals(
-                        new Command(
-                                Path.of("echo"),
+                        new EchoCommand(
                                 List.of("aaa"),
                                 List.of(new EnvironmentVariable("c", "1"))
                         ),
@@ -363,8 +365,7 @@ public class ParserTests {
                         "1 arg, 1 var"
                 ),
                 () -> assertEquals(
-                        new Command(
-                                Path.of("echo"),
+                        new EchoCommand(
                                 List.of("aaa", "bbb", "c"),
                                 List.of(new EnvironmentVariable("c", "1"))
                         ),
@@ -380,8 +381,7 @@ public class ParserTests {
                         "3 args, 1 var"
                 ),
                 () -> assertEquals(
-                        new Command(
-                                Path.of("echo"),
+                        new EchoCommand(
                                 List.of("aaa"),
                                 List.of(new EnvironmentVariable("c", "1"), new EnvironmentVariable("d", "e!"))
                         ),
@@ -396,8 +396,7 @@ public class ParserTests {
                         "1 arg, 2 vars"
                 ),
                 () -> assertEquals(
-                        new Command(
-                                Path.of("echo"),
+                        new EchoCommand(
                                 List.of("aaa"),
                                 Collections.emptyList()
                         ),
@@ -410,8 +409,7 @@ public class ParserTests {
                         "1 arg, no vars"
                 ),
                 () -> assertEquals(
-                        new Command(
-                                Path.of("echo"),
+                        new EchoCommand(
                                 Collections.emptyList(),
                                 List.of(new EnvironmentVariable("c", "1"), new EnvironmentVariable("d", "e!"))
                         ),
@@ -425,8 +423,7 @@ public class ParserTests {
                         "no args, 2 vars"
                 ),
                 () -> assertEquals(
-                        new Command(
-                                Path.of("pwd"),
+                        new PwdCommand(
                                 Collections.emptyList(),
                                 Collections.emptyList()
                         ),
@@ -438,8 +435,7 @@ public class ParserTests {
                         "no args, no vars"
                 ),
                 () -> assertEquals(
-                        new Command(
-                                null,
+                        new EmptyCommand(
                                 Collections.emptyList(),
                                 Collections.emptyList()
                         ),

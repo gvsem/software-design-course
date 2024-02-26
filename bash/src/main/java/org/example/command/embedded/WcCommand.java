@@ -18,8 +18,11 @@ public class WcCommand extends EmbeddedCommand {
     @Override
     public int run(IExecutor executor, Context context) throws ExecutionException {
         try {
-            String filePath = getCommandLineArguments().get(0);
-            Path path = Path.of(filePath);
+            if (getCommandLineArguments().isEmpty()) {
+                throw new ExecutionException("No mandatory argument <filename>");
+            }
+
+            Path path = Path.of(getCommandLineArguments().get(0));
 
             if (!path.isAbsolute()) {
                 path = context.getWorkingDirectory().resolve(path);
@@ -34,7 +37,7 @@ public class WcCommand extends EmbeddedCommand {
             String[] words = content.split("\\s+");
             int bytes = Files.readAllBytes(path).length;
 
-            context.getDescriptors().stdout.print(lines.length + " " + words.length + " " + bytes);
+            context.getDescriptors().stdout.println(lines.length + " " + words.length + " " + bytes);
 
         } catch (IOException e) {
             return 1;

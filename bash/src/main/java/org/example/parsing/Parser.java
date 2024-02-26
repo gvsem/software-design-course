@@ -8,6 +8,7 @@ import org.example.ast.concrete.token.AbstractToken;
 import org.example.ast.concrete.token.EnvVariableToken;
 import org.example.ast.concrete.token.StringToken;
 import org.example.command.Command;
+import org.example.command.EmbeddedCommand;
 import org.example.command.EnvironmentVariable;
 import org.example.interfaces.IParser;
 import org.example.parsing.exception.ParseException;
@@ -17,14 +18,16 @@ import java.nio.file.Path;
 import java.util.Collections;
 import java.util.List;
 
-
+/**
+ * Standard implementation of IParser
+ */
 public class Parser implements IParser {
+
     @Override
     public AbstractExpression parse(String expression) throws ParseException {
         return new UnresolvedCommandExpression(preprocess(expression));
     }
-    
-    
+
     @Override
     public Command parse(ResolvedCommandExpression expression) throws ParseException {
         List<AbstractToken> tokens = expression.getTokens();
@@ -43,10 +46,14 @@ public class Parser implements IParser {
             throw new ParseException("Unexpected non-string token", e);
         }
         
-        Path executable = strings.isEmpty()? null : Path.of(strings.get(0));
-        List<String> args = strings.isEmpty()? Collections.emptyList() : strings.subList(1, strings.size());
-        
-        return new Command(executable, args, vars);
+        String executable = strings.isEmpty() ? "" : strings.get(0);
+        List<String> args = strings.isEmpty() ? Collections.emptyList() : strings.subList(1, strings.size());
+
+        if (EmbeddedCommand.isEmbeddedCommandName(executable)) {
+            return EmbeddedCommand.createEmbeddedCommand(executable, args, vars);
+        }
+
+        return new Command(Path.of(executable), args, vars);
     }
     
     

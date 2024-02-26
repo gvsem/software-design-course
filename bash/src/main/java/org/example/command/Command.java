@@ -8,6 +8,7 @@ import org.example.execution.context.Context;
 import org.example.execution.exception.ExecutionException;
 import org.example.interfaces.IExecutor;
 
+import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Optional;
@@ -38,10 +39,14 @@ public class Command implements Executable {
     }
 
     @Override
-    public int run(IExecutor executor, Context context) throws ExecutionException {
+    public int run(IExecutor executor, Context context) throws IOException, ExecutionException {
         return executor.executeProcess(this, context);
     }
 
+    /**
+     * Indicates if this command is embedded or real
+     * @return true, if this command is embedded
+     */
     public boolean isEmbeddedCommand() {
         return false;
     }

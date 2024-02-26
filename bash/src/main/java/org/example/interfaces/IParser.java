@@ -5,7 +5,17 @@ import org.example.ast.concrete.ResolvedCommandExpression;
 import org.example.command.Command;
 import org.example.parsing.exception.ParseException;
 
+/**
+ * Interface of Parser module
+ */
 public interface IParser {
+
+    /**
+     * Parse string into abstract syntax tree
+     * @param expression arbitrary string treated as bash expression
+     * @return root of abstract syntax tree
+     * @throws ParseException if expression is malformed
+     */
     AbstractExpression parse(String expression) throws ParseException;
 
     /**

@@ -2,16 +2,11 @@ import org.example.command.Command;
 import org.example.command.EmbeddedCommand;
 import org.example.execution.Executor;
 import org.example.execution.context.Context;
-import org.example.execution.descriptor.AbstractDescriptor;
-import org.example.execution.descriptor.FileDescriptor;
-import org.example.execution.exception.ExecutionException;
 import org.junit.jupiter.api.Test;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
+
+import util.MockOutputStream;
 
 public class EmbeddedExecutorTests {
 

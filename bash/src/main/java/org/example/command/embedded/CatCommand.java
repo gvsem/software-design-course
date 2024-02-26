@@ -15,10 +15,13 @@ import java.util.List;
 public class CatCommand extends EmbeddedCommand {
 
     @Override
-    public int run(IExecutor executor, Context context) throws ExecutionException {
+    public int run(IExecutor executor, Context context) throws IOException, ExecutionException {
         try {
-            String filePath = getCommandLineArguments().get(0);
-            Path path = Path.of(filePath);
+            if (getCommandLineArguments().isEmpty()) {
+                throw new ExecutionException("No mandatory argument <filename>");
+            }
+
+            Path path = Path.of(getCommandLineArguments().get(0));
 
             if (!path.isAbsolute()) {
                 path = context.getWorkingDirectory().resolve(path);
@@ -29,9 +32,10 @@ public class CatCommand extends EmbeddedCommand {
             }
 
             String content = new String(Files.readAllBytes(path));
-            context.getDescriptors().stdout.print(content);
+            context.getDescriptors().stdout.println(content);
 
-        } catch (IOException e) {
+        } catch (Exception e) {
+            context.getDescriptors().stderr.println(e.getMessage());
             return 1;
         }
 
