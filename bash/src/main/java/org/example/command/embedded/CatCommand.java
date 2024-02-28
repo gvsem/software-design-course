@@ -32,10 +32,11 @@ public class CatCommand extends EmbeddedCommand {
             }
 
             String content = new String(Files.readAllBytes(path));
+            if (!content.isEmpty() && content.charAt(content.length() - 1) == '\n')
+                content = content.substring(0, content.length() - 1);
             context.getDescriptors().stdout.println(content);
 
         } catch (Exception e) {
-            context.getDescriptors().stderr.println(e.getMessage());
             return 1;
         }
 

@@ -14,10 +14,11 @@ public class EchoCommand extends EmbeddedCommand {
     @Override
     public int run(IExecutor executor, Context context) throws ExecutionException {
         try {
-            for (String argument : getCommandLineArguments()) {
-                context.getDescriptors().stdout.print(argument + " ");
+            int size = getCommandLineArguments().size();
+            for (int i=0; i<size-1; i++) {
+                context.getDescriptors().stdout.print( getCommandLineArguments().get(i) + " ");
             }
-            context.getDescriptors().stdout.println("");
+            context.getDescriptors().stdout.print( getCommandLineArguments().get(size-1) + "\n");
         } catch (IOException e) {
             return 1;
         }
