@@ -6,6 +6,9 @@ import org.example.execution.descriptor.DescriptorSet;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+/**
+ * Interpreter context in which command is evaluated
+ */
 public class Context {
     private final Environment environment;
     private final Path workingDirectory;

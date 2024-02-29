@@ -9,6 +9,9 @@ import org.example.interfaces.IExecutor;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * Implementation of embedded command 'echo'
+ */
 public class EchoCommand extends EmbeddedCommand {
 
     @Override

@@ -12,6 +12,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
+/**
+ * Implementation of embedded command 'cat'
+ */
 public class CatCommand extends EmbeddedCommand {
 
     @Override

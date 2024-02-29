@@ -9,6 +9,9 @@ import org.example.interfaces.IExecutor;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * Implementation of embedded command 'pwd'
+ */
 public class PwdCommand extends EmbeddedCommand {
 
     @Override

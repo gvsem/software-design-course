@@ -6,6 +6,9 @@ import org.example.execution.context.Context;
 import org.example.execution.exception.ExecutionException;
 import org.example.interfaces.IExecutor;
 
+/**
+ * AST node corresponding to || operator in bash
+ */
 public class OrExpression extends AbstractBinaryExpression {
     public OrExpression(AbstractExpression left, AbstractExpression right) {
         super(left, right);

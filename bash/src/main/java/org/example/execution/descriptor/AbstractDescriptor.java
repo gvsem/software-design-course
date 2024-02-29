@@ -4,6 +4,9 @@ import org.example.interfaces.IDescriptor;
 
 import java.io.IOException;
 
+/**
+ * Base class for descriptors
+ */
 public abstract class AbstractDescriptor implements IDescriptor {
 
     protected AbstractDescriptor(Type type) {

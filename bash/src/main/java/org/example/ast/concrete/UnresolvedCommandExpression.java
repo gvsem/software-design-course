@@ -12,6 +12,9 @@ import org.example.parsing.exception.ParseException;
 
 import java.io.IOException;
 
+/**
+ * Leaf of AST corresponding to a command text with, possibly, substitutions
+ */
 @EqualsAndHashCode(callSuper = false)
 @Data
 public class UnresolvedCommandExpression extends AbstractExpression {

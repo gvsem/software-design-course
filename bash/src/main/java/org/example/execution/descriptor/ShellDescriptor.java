@@ -4,6 +4,9 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 
+/**
+ * Descriptor implemented as file
+ */
 public class ShellDescriptor extends AbstractDescriptor {
 
     private final SystemType systemType;

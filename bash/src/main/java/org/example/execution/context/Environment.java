@@ -3,6 +3,9 @@ package org.example.execution.context;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Set of global variables declared inside interpreter
+ */
 public class Environment {
 
     private final Map<String, String> variables = new HashMap<>();

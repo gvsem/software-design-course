@@ -13,6 +13,9 @@ import java.nio.file.Path;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Command – entity corresponding to executable process or embedded command
+ */
 @EqualsAndHashCode
 @ToString
 public class Command implements Executable {

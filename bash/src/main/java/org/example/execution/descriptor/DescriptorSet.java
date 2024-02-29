@@ -4,6 +4,9 @@ import org.example.execution.context.Context;
 import org.example.execution.exception.ExecutionException;
 import org.example.interfaces.IDescriptor;
 
+/**
+ * Set of stdin, stdout and stderr descriptors
+ */
 public class DescriptorSet {
 
     public final AbstractDescriptor stdin;

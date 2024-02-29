@@ -2,6 +2,9 @@ package org.example.ast.base;
 
 import lombok.Getter;
 
+/**
+ * Base class for binary expressions
+ */
 public abstract class AbstractBinaryExpression extends AbstractExpression {
 
     @Getter

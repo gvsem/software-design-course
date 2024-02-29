@@ -17,6 +17,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ * Command with implementation inside interpreter
+ */
 public class EmbeddedCommand extends Command {
     private final String commandName;
 

@@ -15,6 +15,9 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Implementation of embedded command 'wc'
+ */
 public class WcCommand extends EmbeddedCommand {
 
     @Override

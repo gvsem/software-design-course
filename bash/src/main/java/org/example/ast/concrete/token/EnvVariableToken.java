@@ -2,6 +2,9 @@ package org.example.ast.concrete.token;
 
 import lombok.Getter;
 
+/**
+ * Token of resolved command corresponding to environment variable assignment
+ */
 public class EnvVariableToken extends AbstractToken {
     @Getter
     private final String variableName;

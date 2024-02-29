@@ -11,6 +11,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+/**
+ * Descriptor implemented as file
+ */
 public class FileDescriptor extends AbstractDescriptor {
     private final File file;
 
