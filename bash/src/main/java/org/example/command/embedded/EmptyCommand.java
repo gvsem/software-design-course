@@ -6,9 +6,6 @@ import org.example.execution.context.Context;
 import org.example.execution.exception.ExecutionException;
 import org.example.interfaces.IExecutor;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.List;
 
 /**
@@ -25,4 +22,3 @@ public class EmptyCommand extends EmbeddedCommand {
         super("", commandLineArguments, environmentVariables);
     }
 }
-

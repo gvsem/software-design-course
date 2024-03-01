@@ -2,17 +2,11 @@ package org.example.execution;
 
 import org.example.command.Command;
 import org.example.command.EmbeddedCommand;
-import org.example.command.embedded.CatCommand;
-import org.example.command.embedded.EchoCommand;
-import org.example.command.embedded.PwdCommand;
-import org.example.command.embedded.WcCommand;
 import org.example.execution.context.Context;
 import org.example.execution.exception.ExecutionException;
 import org.example.interfaces.IEmbeddedExecutor;
-import org.example.interfaces.IExecutor;
 
 import java.io.IOException;
-import java.util.Map;
 
 public class EmbeddedExecutor implements IEmbeddedExecutor {
 

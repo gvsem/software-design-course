@@ -1,6 +1,5 @@
 package org.example.interfaces;
 
-import org.example.execution.descriptor.AbstractDescriptor;
 import org.example.execution.exception.ExecutionException;
 
 public interface IDescriptor {

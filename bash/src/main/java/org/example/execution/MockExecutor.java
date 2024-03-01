@@ -1,15 +1,11 @@
 package org.example.execution;
 
 import org.example.command.Command;
-import org.example.command.EmbeddedCommand;
 import org.example.execution.context.Context;
 import org.example.execution.exception.ExecutionException;
-import org.example.interfaces.IEmbeddedExecutor;
 import org.example.interfaces.IExecutor;
 import org.example.interfaces.IParser;
 import org.example.interfaces.ISubstitutor;
-
-import java.io.IOException;
 
 public class MockExecutor implements IExecutor {
 

@@ -4,11 +4,9 @@ import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
 import java.io.PrintStream;
-import java.util.Arrays;
 
 public class MockOutputStream implements AutoCloseable {
 
@@ -49,7 +47,7 @@ public class MockOutputStream implements AutoCloseable {
     }
 
     @Override
-    public void close()  {
+    public void close() {
         try {
             outputStream.close();
         } catch (IOException e) {

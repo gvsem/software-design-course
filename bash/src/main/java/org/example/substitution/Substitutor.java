@@ -5,14 +5,16 @@ import org.example.ast.concrete.UnresolvedCommandExpression;
 import org.example.ast.concrete.token.AbstractToken;
 import org.example.ast.concrete.token.EnvVariableToken;
 import org.example.ast.concrete.token.StringToken;
-import org.example.command.EnvironmentVariable;
 import org.example.execution.context.Context;
 import org.example.interfaces.ISubstitutor;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
+/*
+ * Substitutor performs splitting string stream into meaningful tokens 
+ * and substituting variables with their values
+ */
 public class Substitutor implements ISubstitutor {
 
     private static EnvVariableToken parseEnvironmentToken(String token) {
@@ -43,6 +45,11 @@ public class Substitutor implements ISubstitutor {
         return new EnvVariableToken(varName, t.toString());
     }
 
+    /*
+     * Resolves CommandExpression by splitting the expression into StringEnvironment
+     * and EnvironmentTokens, performing substitution for the variables within the
+     * context
+     */
     @Override
     public ResolvedCommandExpression resolve(UnresolvedCommandExpression expression, Context context) {
 
