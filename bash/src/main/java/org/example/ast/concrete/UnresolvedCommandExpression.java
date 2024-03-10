@@ -22,8 +22,12 @@ public class UnresolvedCommandExpression extends AbstractExpression {
         this.command = command;
     }
 
+    public ResolvedCommandExpression resolve(IExecutor executor, Context context) {
+        return executor.getSubstitutor().resolve(this, executor, context);
+    }
+
     @Override
     public int run(IExecutor executor, Context context) throws IOException, ExecutionException {
-        return executor.getSubstitutor().resolve(this, context).run(executor, context);
+        return resolve(executor, context).run(executor, context);
     }
 }

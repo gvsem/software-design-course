@@ -15,10 +15,15 @@ public class EmptyCommand extends EmbeddedCommand {
 
     @Override
     public int run(IExecutor executor, Context context) throws ExecutionException {
+        for (EnvironmentVariable var : getEnvironmentVariables()) {
+            context.getEnvironment().put(var.variableName(), var.value());
+        }
         return 0;
     }
 
     public EmptyCommand(List<String> commandLineArguments, List<EnvironmentVariable> environmentVariables) {
         super("", commandLineArguments, environmentVariables);
     }
+
+
 }

@@ -1,6 +1,5 @@
 package org.example.execution.descriptor;
 
-import org.example.execution.context.Context;
 import org.example.execution.exception.ExecutionException;
 import org.example.interfaces.IDescriptor;
 
