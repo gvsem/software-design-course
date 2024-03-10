@@ -1,12 +1,12 @@
 package org.example.parsing;
 
-
 import org.example.ast.base.AbstractExpression;
 import org.example.ast.concrete.ResolvedCommandExpression;
 import org.example.ast.concrete.UnresolvedCommandExpression;
 import org.example.ast.concrete.token.AbstractToken;
 import org.example.ast.concrete.token.EnvVariableToken;
 import org.example.ast.concrete.token.StringToken;
+import org.example.ast.sequential.PipeExpression;
 import org.example.command.Command;
 import org.example.command.EmbeddedCommand;
 import org.example.command.EnvironmentVariable;
@@ -25,7 +25,25 @@ public class Parser implements IParser {
 
     @Override
     public AbstractExpression parse(String expression) throws ParseException {
-        return new UnresolvedCommandExpression(preprocess(expression));
+
+        List<String> stringPipeExpressionsList = List.of(expression.split("\\|"));
+        if (stringPipeExpressionsList.size() == 1) {
+            return new UnresolvedCommandExpression(preprocess(expression));
+        }
+        // there is at least a pair of expressions,
+        // accompanied by pipe
+
+        int exprSize = stringPipeExpressionsList.size();
+        // last two
+        PipeExpression currPipeExpr = new PipeExpression(
+                new UnresolvedCommandExpression(preprocess(stringPipeExpressionsList.get(exprSize - 2))),
+                new UnresolvedCommandExpression(preprocess(stringPipeExpressionsList.get(exprSize - 1))));
+        for (int i = stringPipeExpressionsList.size() - 3; i >= 0; i--) {
+            currPipeExpr = new PipeExpression(
+                    new UnresolvedCommandExpression(preprocess(stringPipeExpressionsList.get(i))),
+                    currPipeExpr);
+        }
+        return currPipeExpr;
     }
 
     @Override
@@ -36,7 +54,7 @@ public class Parser implements IParser {
                 .map(EnvVariableToken.class::cast)
                 .map(evt -> new EnvironmentVariable(evt.getVariableName(), evt.getValue()))
                 .toList();
-        
+
         List<String> strings;
         try {
             strings = tokens.subList(vars.size(), tokens.size()).stream()
@@ -45,7 +63,7 @@ public class Parser implements IParser {
         } catch (ClassCastException e) {
             throw new ParseException("Unexpected non-string token", e);
         }
-        
+
         String executable = strings.isEmpty() ? "" : strings.get(0);
         List<String> args = strings.isEmpty() ? Collections.emptyList() : strings.subList(1, strings.size());
 
@@ -55,23 +73,23 @@ public class Parser implements IParser {
 
         return new Command(Path.of(executable), args, vars);
     }
-    
-    
+
     /**
      * Checks quoting and bracing & removes extra spaces.
      */
     private String preprocess(String expression) throws ParseException {
         StringBuilder preprocessed = new StringBuilder();
         final String exMsg = "Mismatched parentheses / braces / quotes in \"" + expression + "\"";
-        
+
         char c;
         PreprocessingState state = new PreprocessingState();
         for (int i = 0; i < expression.length(); i++) {
             c = expression.charAt(i);
-            
+
             if (!Character.isWhitespace(c) || !state.isSpace()) {
-                preprocessed.append(Character.isWhitespace(c) && state.peek() != '\'' && state.peek() != '\"'? ' ' : c);
-                
+                preprocessed
+                        .append(Character.isWhitespace(c) && state.peek() != '\'' && state.peek() != '\"' ? ' ' : c);
+
                 try {
                     state.add(c);
                 } catch (ParseException e) {
@@ -79,10 +97,10 @@ public class Parser implements IParser {
                 }
             }
         }
-        
+
         if (state.isMismatch())
             throw new ParseException(exMsg);
-        
+
         return preprocessed.toString().trim();
     }
 }
