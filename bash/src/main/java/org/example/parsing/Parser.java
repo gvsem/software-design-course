@@ -15,6 +15,7 @@ import org.example.parsing.exception.ParseException;
 import org.example.parsing.preprocessing.PreprocessingState;
 
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -26,7 +27,7 @@ public class Parser implements IParser {
     @Override
     public AbstractExpression parse(String expression) throws ParseException {
 
-        List<String> stringPipeExpressionsList = List.of(expression.split("\\|"));
+        List<String> stringPipeExpressionsList = pipeSplit(expression);
         if (stringPipeExpressionsList.size() == 1) {
             return new UnresolvedCommandExpression(preprocess(expression));
         }
@@ -34,11 +35,15 @@ public class Parser implements IParser {
         // accompanied by pipe
 
         int exprSize = stringPipeExpressionsList.size();
+        // if the last character is a pipe, strip it
+        if (stringPipeExpressionsList.get(exprSize - 1).strip().length() == 0) {
+            exprSize -= 1;
+        }
         // last two
         PipeExpression currPipeExpr = new PipeExpression(
                 new UnresolvedCommandExpression(preprocess(stringPipeExpressionsList.get(exprSize - 2))),
                 new UnresolvedCommandExpression(preprocess(stringPipeExpressionsList.get(exprSize - 1))));
-        for (int i = stringPipeExpressionsList.size() - 3; i >= 0; i--) {
+        for (int i = exprSize - 3; i >= 0; i--) {
             currPipeExpr = new PipeExpression(
                     new UnresolvedCommandExpression(preprocess(stringPipeExpressionsList.get(i))),
                     currPipeExpr);
@@ -77,7 +82,7 @@ public class Parser implements IParser {
     /**
      * Checks quoting and bracing & removes extra spaces.
      */
-    private String preprocess(String expression) throws ParseException {
+    private static String preprocess(String expression) throws ParseException {
         StringBuilder preprocessed = new StringBuilder();
         final String exMsg = "Mismatched parentheses / braces / quotes in \"" + expression + "\"";
 
@@ -102,5 +107,30 @@ public class Parser implements IParser {
             throw new ParseException(exMsg);
 
         return preprocessed.toString().trim();
+    }
+
+    /**
+     * Helper function that correctly splits string by pipes
+     */
+    private static List<String> pipeSplit(String expression) {
+        // splits expression by pipes that are not surrounded by quotes
+        boolean openDoubleQuote = false;
+        boolean openSingleQuote = false;
+        List<String> stringsPipeExpressionsList = new ArrayList<>();
+
+        int prevPipeIdx = -1;
+        for (int i = 0; i < expression.length(); i++) {
+            char c = expression.charAt(i);
+            if (c == '|' && !openDoubleQuote && !openSingleQuote) {
+                stringsPipeExpressionsList.add(expression.substring(prevPipeIdx + 1, i));
+                prevPipeIdx = i;
+            } else if (c == '\'' && !openDoubleQuote) {
+                openSingleQuote ^= true;
+            } else if (c == '"' && !openSingleQuote) {
+                openDoubleQuote ^= true;
+            }
+        }
+        stringsPipeExpressionsList.add(expression.substring(prevPipeIdx + 1, expression.length()));
+        return stringsPipeExpressionsList;
     }
 }

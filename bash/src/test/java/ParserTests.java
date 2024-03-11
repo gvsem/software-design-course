@@ -396,7 +396,26 @@ public class ParserTests {
                                         new UnresolvedCommandExpression(
                                                 "cat"))),
                         PARSER.parse("pwd | ls | cat"),
-                        "multiple pipes")
+                        "multiple pipes"),
+                () -> assertEquals(
+                        new PipeExpression(
+                                new UnresolvedCommandExpression("pwd '| ls '"),
+                                new UnresolvedCommandExpression("cat")),
+                        PARSER.parse("pwd '| ls '| cat"),
+                        "pipe inside single quotes"),
+                () -> assertEquals(
+                        new PipeExpression(
+                                new UnresolvedCommandExpression("pwd \"| ls\""),
+                                new UnresolvedCommandExpression("cat")),
+                        PARSER.parse("pwd \"| ls\" | cat"),
+                        "pipe inside double quotes"),
+
+                () -> assertEquals(
+                        new PipeExpression(
+                                new UnresolvedCommandExpression("pwd \"| ls\""),
+                                new UnresolvedCommandExpression("cat")),
+                        PARSER.parse("pwd \"| ls\" | cat| "),
+                        "last valuable element is pipe")
 
         );
     }
