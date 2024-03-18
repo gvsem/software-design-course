@@ -1,13 +1,3 @@
-import org.example.command.Command;
-import org.example.command.EmbeddedCommand;
-import org.example.execution.Executor;
-import org.example.execution.context.Context;
-import org.junit.jupiter.api.Test;
-
-import java.util.List;
-
-import util.MockOutputStream;
-
 public class EmbeddedExecutorTests {
 
 //    @Test

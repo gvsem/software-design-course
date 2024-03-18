@@ -5,6 +5,7 @@ import org.example.ast.concrete.UnresolvedCommandExpression;
 import org.example.ast.concrete.token.AbstractToken;
 import org.example.ast.concrete.token.EnvVariableToken;
 import org.example.ast.concrete.token.StringToken;
+import org.example.execution.MockExecutor;
 import org.example.execution.context.Context;
 import org.example.interfaces.ISubstitutor;
 import org.example.substitution.Substitutor;
@@ -48,14 +49,14 @@ public class SubstitutorTests {
                 new StringToken("1\"1"),
                 new StringToken("22")),
                 s.resolve(new UnresolvedCommandExpression(
-                        "LOL=123 KEK=\"ke k'1\"\"1 23'2'3'\" echo 5 \"123'222'222\" '1232' '1\"1' '2''2'"), context)
+                        "LOL=123 KEK=\"ke k'1\"\"1 23'2'3'\" echo 5 \"123'222'222\" '1232' '1\"1' '2''2'"), new MockExecutor(), context)
                         .getTokens());
 
         checkRightSubstitution(List.of(
                 new EnvVariableToken("LOL", "123"),
                 new EnvVariableToken("KEK", "ke k'11 23'2'3'")),
                 s.resolve(new UnresolvedCommandExpression(
-                        "LOL=123 KEK=\"ke k'1\"\"1 23'2'3'\""), context).getTokens());
+                        "LOL=123 KEK=\"ke k'1\"\"1 23'2'3'\""), new MockExecutor(), context).getTokens());
 
         // // Currently, no Context support
         // Substitutor subs = new Substitutor();

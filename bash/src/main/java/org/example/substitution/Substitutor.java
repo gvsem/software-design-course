@@ -6,8 +6,11 @@ import org.example.ast.concrete.token.AbstractToken;
 import org.example.ast.concrete.token.EnvVariableToken;
 import org.example.ast.concrete.token.StringToken;
 import org.example.execution.context.Context;
+import org.example.execution.exception.ExecutionException;
+import org.example.interfaces.IExecutor;
 import org.example.interfaces.ISubstitutor;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,7 +54,7 @@ public class Substitutor implements ISubstitutor {
      * context
      */
     @Override
-    public ResolvedCommandExpression resolve(UnresolvedCommandExpression expression, Context context) {
+    public ResolvedCommandExpression resolve(UnresolvedCommandExpression expression, IExecutor executor, Context context) {
 
         List<AbstractToken> tokens = new ArrayList<>();
 
@@ -81,6 +84,29 @@ public class Substitutor implements ISubstitutor {
                 openSingleQuote ^= true;
             } else if (x == '"' && !openSingleQuote) {
                 openDoubleQuote ^= true;
+            } else if (x == '$' && !openSingleQuote && i + 1 < expression.getCommand().length()) {
+                StringBuilder substitution = new StringBuilder();
+                if (expression.getCommand().charAt(i + 1) == '(') {
+                    // TODO: убрать костыль с тем, что читаем до закрывающей скобки. или это и не костыль?
+                    i += 2;
+                    while (i < expression.getCommand().length() && (expression.getCommand().charAt(i) != ')')) {
+                        substitution.append(expression.getCommand().charAt(i));
+                        i++;
+                    }
+                    try {
+                        token.append(new UnresolvedCommandExpression(substitution.toString()).executeAsExpression(executor, context));
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    } catch (ExecutionException ignored) {}
+                } else {
+                    i++;
+                    while (i < expression.getCommand().length() && Character.isLetterOrDigit(expression.getCommand().charAt(i))) {
+                        substitution.append(expression.getCommand().charAt(i));
+                        i++;
+                    }
+                    i--;
+                    token.append(context.getEnvironment().get(substitution.toString()));
+                }
             } else {
                 token.append(x);
             }

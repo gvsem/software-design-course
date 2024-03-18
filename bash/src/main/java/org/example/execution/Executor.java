@@ -47,8 +47,27 @@ public class Executor implements IExecutor {
             return 0;
         }
 
+        try {
+            ProcessBuilder processBuilder = buildExecutable(command, context);
+            Process process = processBuilder.start();
+            return process.waitFor();
+        } catch (IOException e) {
+            throw new ExecutionException("Executable not found", e);
+        } catch (InterruptedException e) {
+            throw new ExecutionException("Command execution was interrupted", e);
+        }
+
+    }
+
+
+    private static ProcessBuilder buildExecutable(Command command, Context context) throws ExecutionException {
+
+        if (command.getExecutable().isEmpty()) {
+            throw new ExecutionException("Can not create process builder for empty executable");
+        }
+
         Path executablePath = findExecutable(command.getExecutable().get(), context)
-                .orElseThrow(() -> new ExecutionException("Executable not found : " + command.getExecutable().toString()));
+                .orElseThrow(() -> new ExecutionException("Executable not found : " + command.getExecutable()));
 
         List<String> cmdLineArgs = new ArrayList<>();
         cmdLineArgs.add(executablePath.toString());
@@ -61,21 +80,12 @@ public class Executor implements IExecutor {
 
         File workingDirectory = context.getWorkingDirectory().toAbsolutePath().toFile();
         if (!workingDirectory.isDirectory() || !workingDirectory.exists()) {
-            throw new ExecutionException("Working directory is not accessible: " + workingDirectory.toString());
+            throw new ExecutionException("Working directory is not accessible: " + workingDirectory);
         }
         processBuilder.directory(workingDirectory);
 
         context.getDescriptors().redirect(processBuilder);
-
-        try {
-            Process process = processBuilder.start();
-            return process.waitFor();
-        } catch (IOException e) {
-            throw new ExecutionException("Executable not found", e);
-        } catch (InterruptedException e) {
-            throw new ExecutionException("Command execution was interrupted", e);
-        }
-
+        return processBuilder;
     }
 
     private static Optional<Path> findExecutable(Path executablePath, Context context) {
