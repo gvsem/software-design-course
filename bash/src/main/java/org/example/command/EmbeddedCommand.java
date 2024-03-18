@@ -4,6 +4,7 @@ import org.example.command.embedded.CatCommand;
 import org.example.command.embedded.EchoCommand;
 import org.example.command.embedded.EmptyCommand;
 import org.example.command.embedded.ExitCommand;
+import org.example.command.embedded.GrepCommand;
 import org.example.command.embedded.PwdCommand;
 import org.example.command.embedded.WcCommand;
 
@@ -36,6 +37,7 @@ public class EmbeddedCommand extends Command {
             Map.entry("wc", WcCommand.class),
             Map.entry("cat", CatCommand.class),
             Map.entry("exit", ExitCommand.class),
+            Map.entry("grep", GrepCommand.class),
             Map.entry("", EmptyCommand.class));
 
     public static boolean isEmbeddedCommandName(String commandName) {
@@ -59,6 +61,9 @@ public class EmbeddedCommand extends Command {
             }
             case "exit" -> {
                 return new ExitCommand(commandLineArguments, environmentVariables);
+            }
+            case "grep" -> {
+                return new GrepCommand(commandLineArguments, environmentVariables);
             }
             case "" -> {
                 return new EmptyCommand(commandLineArguments, environmentVariables);
