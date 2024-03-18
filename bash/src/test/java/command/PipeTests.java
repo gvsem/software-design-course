@@ -28,7 +28,7 @@ public class PipeTests {
 
         PipeExpression expression = new PipeExpression(
                 new UnresolvedCommandExpression("cat src/test/resources/three-lines.txt"),
-                new UnresolvedCommandExpression("grep up")
+                new UnresolvedCommandExpression("/usr/bin/grep up")
         );
 
         expression.run(executor, context);
@@ -50,7 +50,7 @@ public class PipeTests {
         PipeExpression expression = new PipeExpression(
                 new UnresolvedCommandExpression("cat src/test/resources/three-lines.txt"),
                 new PipeExpression(
-                    new UnresolvedCommandExpression("grep up"),
+                    new UnresolvedCommandExpression("/usr/bin/grep up"),
                     new PipeExpression(
                             new UnresolvedCommandExpression("/usr/bin/wc -w"),
                             new UnresolvedCommandExpression("xargs") // to support macos wc behavior
