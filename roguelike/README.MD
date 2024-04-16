@@ -88,3 +88,5 @@ GameApplication - класс, который принимает пользова
 ![](./assets/state.png)
 
 ![](./assets/sequence.png)
+
+![](./assets/sequence2.png)
