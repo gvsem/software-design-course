@@ -7,4 +7,7 @@ public interface Console {
     void drawString(String text, Color color);
     int width();
     int height();
+
+    default int inventoryHeight() {return 4;}
+
 }
