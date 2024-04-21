@@ -4,10 +4,15 @@ import java.awt.Color;
 
 public interface Drawable {
 
-    String getIcon();
-    Color getColor();
+    default boolean isEmojiIcon() { return false; }
+    default String getIcon() {return "  ";}
+    default Color getColor() {return Color.BLACK;}
 
     default void draw(Console console) {
-        console.drawString(getIcon(), getColor());
+        if (isEmojiIcon()) {
+            console.drawEmoji(getIcon());
+        } else {
+            console.drawString(getIcon(), getColor());
+        }
     }
 }

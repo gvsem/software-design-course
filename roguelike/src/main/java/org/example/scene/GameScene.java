@@ -8,14 +8,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
-public class GameScene {
+public class GameScene implements Drawable {
     private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
     @Getter
     private boolean running = false;
     private boolean aboutToQuit = false;
-    
+
+    private final GameContext game;
     
     public GameScene(GameContext game) {
+        this.game = game;
         this.running = true;
     }
     
@@ -38,5 +40,10 @@ public class GameScene {
             default -> {
             }
         }
+    }
+
+    @Override
+    public void draw(Console console) {
+        this.game.getCurrentLevel().draw(console);
     }
 }
