@@ -7,7 +7,7 @@ import java.nio.file.Path;
 public class LevelLoader {
 
     public static Level loadLevel(Path file) {
-        throw new UnsupportedOperationException();
+        return new Level(100, 100);
     }
 
 }

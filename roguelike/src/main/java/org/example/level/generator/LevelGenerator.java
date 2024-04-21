@@ -5,7 +5,7 @@ import org.example.level.Level;
 public class LevelGenerator {
 
     public static Level generateMainLevel() {
-        throw new UnsupportedOperationException();
+        return new Level(100, 100);
     }
 
 }
