@@ -23,6 +23,11 @@ public class Level implements Drawable, Cloneable {
         this.playerPosition = new Position(0, 0);
     }
 
+    public Level(Position playerPosition, Block[][] map) {
+        this.map = map;
+        this.playerPosition = playerPosition;
+    }
+
     public int getWidth() {
         return this.map[0].length;
     }
