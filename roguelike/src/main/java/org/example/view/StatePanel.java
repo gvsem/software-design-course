@@ -8,6 +8,8 @@ import org.example.inventory.ActiveInventory;
 import org.example.inventory.item.Item;
 import org.example.scene.Console;
 import org.example.scene.Drawable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.awt.*;
 import java.util.List;
@@ -15,6 +17,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 public class StatePanel implements Drawable {
+    private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
     private static final int INVENTORY_SIZE = 7;
     private static final int MARGIN = 4;
     private final GameContext game;
@@ -23,12 +26,26 @@ public class StatePanel implements Drawable {
     
     
     public void decFocusedInventoryTile() {
-        focusedInventoryTile = Math.max(0, focusedInventoryTile - 1);
+        LOGGER.debug("Dec-ing focusedInventoryTile: focusedInventoryTile={}, curInventoryItemFrom={}", focusedInventoryTile, curInventoryItemFrom);
+        focusedInventoryTile--;
+        
+        if (focusedInventoryTile == -1) {
+            focusedInventoryTile = 0;
+            curInventoryItemFrom = Math.max(0, curInventoryItemFrom - 1);
+        }
+        LOGGER.debug("Dec-ed focusedInventoryTile: focusedInventoryTile={}, curInventoryItemFrom={}", focusedInventoryTile, curInventoryItemFrom);
     }
     
     
     public void incFocusedInventoryTile() {
-        focusedInventoryTile = Math.min(INVENTORY_SIZE - 1, focusedInventoryTile + 1);
+        LOGGER.debug("Inc-ing focusedInventoryTile: focusedInventoryTile={}, curInventoryItemFrom={}", focusedInventoryTile, curInventoryItemFrom);
+        focusedInventoryTile++;
+        
+        if (focusedInventoryTile == INVENTORY_SIZE) {
+            focusedInventoryTile = INVENTORY_SIZE - 1;
+            curInventoryItemFrom = Math.min(Math.max(0, game.getPlayer().getInventory().getItems().size() - INVENTORY_SIZE), curInventoryItemFrom + 1);
+        }
+        LOGGER.debug("Inc-ed focusedInventoryTile: focusedInventoryTile={}, curInventoryItemFrom={}", focusedInventoryTile, curInventoryItemFrom);
     }
     
     
