@@ -3,22 +3,21 @@ package org.example.level.block;
 import org.example.GameContext;
 import org.example.entity.Entity;
 import org.example.entity.MoveDirection;
+import org.example.inventory.item.Item;
+import org.example.scene.Console;
 
 import java.awt.Color;
 
-public class EnterLevelBlock extends Block {
+public class CactusBlock extends Block {
 
-    private final String levelId;
-
-    public EnterLevelBlock(String levelId) {
-        super("\uD83D\uDEAA", Color.BLACK);
-        this.levelId = levelId;
+    public CactusBlock() {
+        super("\uD83C\uDF35", Color.RED);
     }
 
     @Override
     public boolean onVisit(Entity entity, MoveDirection direction, GameContext context) {
-        context.enterLevel(levelId);
-        return true;
+        context.getPlayer().hit(1);
+        return false;
     }
 
     @Override
@@ -27,7 +26,7 @@ public class EnterLevelBlock extends Block {
     }
 
     @Override
-    public EnterLevelBlock clone() {
-        return (EnterLevelBlock) super.clone();
+    public CactusBlock clone() {
+        return (CactusBlock) super.clone();
     }
 }

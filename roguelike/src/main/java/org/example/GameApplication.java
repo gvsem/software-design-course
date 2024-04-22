@@ -1,6 +1,8 @@
 package org.example;
 
 
+import static java.lang.System.exit;
+
 import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.TextCharacter;
 import com.googlecode.lanterna.TextColor;
@@ -11,16 +13,15 @@ import com.googlecode.lanterna.screen.Screen;
 import com.googlecode.lanterna.screen.TerminalScreen;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.Terminal;
+
 import org.example.scene.Console;
 import org.example.scene.GameScene;
 import org.example.util.KeyStrokeToEventMapper;
 import org.example.view.Colors;
+import org.w3c.dom.Text;
 
-import java.awt.*;
+import java.awt.Color;
 import java.io.IOException;
-import java.util.Collections;
-
-import static java.lang.System.exit;
 
 
 public class GameApplication implements Console {
@@ -42,7 +43,7 @@ public class GameApplication implements Console {
                 .setInitialTerminalSize(new TerminalSize(WIDTH, HEIGHT))
                 .createTerminal();
         terminal.setCursorVisible(false);
-        terminal.setBackgroundColor(Colors.BLACK);
+        terminal.setBackgroundColor(Colors.WHITE);
         terminal.setForegroundColor(Colors.WHITE);
         Screen screen = new TerminalScreen(terminal);
         screen.startScreen();
@@ -68,17 +69,15 @@ public class GameApplication implements Console {
         screen.stopScreen();
     }
     
-    
     private void render() {
         try {
             this.terminal.clearScreen();
             textGraphics = terminal.newTextGraphics();
+            textGraphics.setBackgroundColor(new TextColor.RGB(255,255,255));
             scene.draw(this);
             this.terminal.flush();
-        } catch (IOException e) {
-        }
+        } catch (IOException e) {}
     }
-    
     
     public static void main(String[] args) throws IOException {
         new GameApplication(GameFactory.createBasicGame()).run();
@@ -92,11 +91,12 @@ public class GameApplication implements Console {
     
     
     @Override
-    public void drawEmoji(String emoji) {
+    public void drawEmoji(String text) {
         try {
-            textGraphics.setCharacter(terminal.getCursorPosition(), TextCharacter.fromString(emoji)[0]);
-        } catch (IOException e) {
-        }
+            textGraphics.setBackgroundColor(new TextColor.RGB(255, 255, 255));
+            textGraphics.setForegroundColor(new TextColor.RGB(255, 255, 255));
+            textGraphics.setCharacter(terminal.getCursorPosition(), TextCharacter.fromString(text)[0]);
+        } catch (IOException e) {}
     }
     
     
@@ -113,18 +113,34 @@ public class GameApplication implements Console {
     @Override
     public void drawString(String text, Color color) {
         try {
-            terminal.setForegroundColor(new TextColor.RGB(color.getRed(), color.getGreen(), color.getBlue()));
-            terminal.putString(text);
-        } catch (IOException e) {
-        }
+            textGraphics.setBackgroundColor(new TextColor.RGB(255, 255, 255));
+            textGraphics.setForegroundColor(new TextColor.RGB(color.getRed(), color.getGreen(), color.getBlue()));
+            textGraphics.putString(terminal.getCursorPosition(), text);
+        } catch (IOException e) {}
     }
     
+    @Override
+    public void drawString(String text, Color color, Color background) {
+        try {
+            textGraphics.setBackgroundColor(new TextColor.RGB(background.getRed(), background.getGreen(), background.getBlue()));
+            textGraphics.setForegroundColor(new TextColor.RGB(color.getRed(), color.getGreen(), color.getBlue()));
+            textGraphics.putString(terminal.getCursorPosition(), text);
+        } catch (IOException e) {}
+    }
+    
+    @Override
+    public void nextLine() {
+        try {
+            terminal.setCursorPosition(0, terminal.getCursorPosition().getRow() + 1);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
     
     @Override
     public int width() {
         return WIDTH;
     }
-    
     
     @Override
     public int height() {

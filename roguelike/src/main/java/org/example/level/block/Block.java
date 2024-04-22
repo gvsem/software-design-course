@@ -9,7 +9,7 @@ import java.awt.Color;
 
 public abstract class Block implements Drawable, Cloneable {
 
-    public final String icon;
+    public String icon;
     public final Color color;
 
     protected Block(String icon, Color color) {

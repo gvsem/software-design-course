@@ -122,6 +122,7 @@ public class StatePanel implements Drawable {
     
     @Override
     public void draw(Console console) {
+        console.drawString("", Color.BLACK, Color.BLACK);
         final int startRow = console.height() - console.inventoryHeight();
         final int width = console.width();
         

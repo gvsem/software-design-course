@@ -8,7 +8,7 @@ import java.awt.Color;
 
 public class WallBlock extends Block {
     public WallBlock() {
-        super("##", Color.BLACK);
+        super("##", Color.BLUE);
     }
 
     @Override

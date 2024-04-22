@@ -17,4 +17,9 @@ public class LeaveLevelBlock extends Block {
         context.leaveLevel();
         return true;
     }
+
+    @Override
+    public boolean isEmojiIcon() {
+        return true;
+    }
 }

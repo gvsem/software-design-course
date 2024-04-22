@@ -7,6 +7,8 @@ public interface Console {
     void drawEmoji(String emoji);
     void drawString(int row, int col, String text, Color color);
     void drawString(String text, Color color);
+    void drawString(String text, Color color, Color background);
+    void nextLine();
     int width();
     int height();
 

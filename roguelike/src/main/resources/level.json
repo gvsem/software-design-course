@@ -1,21 +1,67 @@
 {
   "$id": "https://example.com/person.schema.json",
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "Person",
-  "type": "object",
-  "properties": {
-    "firstName": {
-      "type": "string",
-      "description": "The person's first name."
-    },
-    "lastName": {
-      "type": "string",
-      "description": "The person's last name."
-    },
-    "age": {
-      "description": "Age in years which must be equal to or greater than zero.",
-      "type": "integer",
-      "minimum": 0
+  "$schema": "http://json-schema.org/draft-09/schema#",
+  "$defs": {
+
+    "Block" : {
+      "type": "object",
+      "description": "A block in the map grid.",
+      "properties": {
+        "type" : {
+          "enum" : ["EmptyBlock", "EnterLevelBlock", "ItemBlock", "LeaveLevelBlock", "WallBlock", "CactusBlock", "HealBlock"],
+          "nullable": false
+        },
+        "levelIdToEnter": {
+          "type" : "string",
+          "description": "The ID of the level to enter, for EntryLevelBlock",
+          "nullable" : false
+        },
+        "itemName" : {
+          "type" : "string",
+          "description": "name of item for item block ",
+          "nullable" : false
+        }
+      },
+      "required" : ["type"]
     }
-  }
+  },
+
+  "type": "object",
+  "title": "Level",
+  "description": "A structure representing a level in a game, containing a map grid and a position.",
+  "properties": {
+    "map": {
+      "type": "array",
+      "description": "A grid of blocks, each cell contains a block object.",
+      "items": {
+        "type": "array",
+        "items" : {
+          "type": "object",
+          "$ref" : "#/$defs/Block"
+        }
+      }
+    },
+    "position": {
+      "type": "object",
+      "description": "The current position on the map.",
+      "properties": {
+        "x": {
+          "type": "integer",
+          "description": "X coordinate of the position."
+        },
+        "y": {
+          "type": "integer",
+          "description": "Y coordinate of the position."
+        }
+      },
+      "required": [
+        "x",
+        "y"
+      ]
+    }
+  },
+
+
+  "required": ["map", "position"]
 }
+
