@@ -16,7 +16,7 @@ public class LevelGenerator {
         Integer WIDTH = 100;
         Integer HEIGHT = 100;
         Integer NUMBER_OF_ITEMS = 10;
-        Integer NUMBER_OF_WALLS = 50;
+        Integer NUMBER_OF_WALLS = 500;
         Block[][] map = new Block[HEIGHT][WIDTH];
 
         for (int i = 0; i < NUMBER_OF_ITEMS; i++) {
@@ -53,6 +53,14 @@ public class LevelGenerator {
                 }
             }
         }
+        int x = 0;
+        int y = 0;
+        while (x == 0 && y == 0 || map[y][x] == null) {
+            x = (int) (Math.random() * WIDTH/4);
+            y = (int) (Math.random() * HEIGHT/4);
+            map[y][x] = new LeaveLevelBlock();
+        }
+
 
 
         return new Level(new Position(0, 0), map);
