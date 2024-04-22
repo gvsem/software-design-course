@@ -1,26 +1,25 @@
 package org.example.view;
 
 
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.example.GameContext;
+import org.example.entity.Player;
 import org.example.inventory.ActiveInventory;
 import org.example.inventory.item.Item;
-import org.example.inventory.item.wearable.Boots;
-import org.example.inventory.item.wearable.Helmet;
-import org.example.inventory.item.wearable.Sword;
 import org.example.scene.Console;
 import org.example.scene.Drawable;
 
 import java.awt.*;
+import java.util.List;
 
 
 @RequiredArgsConstructor
 public class StatePanel implements Drawable {
-    private static final int INVENTORY_SIZE = 5;
-    private static final int MARGIN = 2;
+    private static final int INVENTORY_SIZE = 7;
+    private static final int MARGIN = 4;
     private final GameContext game;
     private int curInventoryItem = 0;
+    private int curInventoryItemFrom = 0;
     
     
     private void drawHorizontal(int startRow, int startCol, int len, Console console) {
@@ -47,13 +46,14 @@ public class StatePanel implements Drawable {
         console.drawString(row, col, Borders.TOP_RIGHT, Color.WHITE);
         col += 1;
         
+        row += 1;
         for (int i = 0; i < 3; i++) {
             col = startCol;
-            row += 1;
             for (int j = 0; j < len + 1; j++) {
                 console.drawString(row, col, Borders.VERTICAL, Color.WHITE);
                 col += 5;
             }
+            row += 1;
         }
         
         col = startCol;
@@ -107,11 +107,43 @@ public class StatePanel implements Drawable {
     
     private void drawInventory(int startRow, int startCol, Console console) {
         drawTable(startRow, startCol, INVENTORY_SIZE, console);
+        
+        List<Item> inventory = game.getPlayer().getInventory().getItems();
+        if (inventory.size() > curInventoryItemFrom + INVENTORY_SIZE)
+            inventory = inventory.subList(curInventoryItemFrom, INVENTORY_SIZE);
+        
+        int row = startRow + 2;
+        int col = startCol + 2;
+        for (Item item: inventory) {
+            drawItem(row, col, item, console);
+            col += 5;
+        }
     }
     
     
     private void drawPlayerState(int startRow, int startCol, Console console) {
-    
+        final Player player = game.getPlayer();
+        final long maxHp = player.getMaxHp();
+        final long hp = player.getHp();
+        
+        int row = startRow;
+        int col = startCol;
+        for (int i = 0; i < hp; i++) {
+            console.drawEmoji(row, col, "🩷");
+            col += 2;
+            if (col - startCol >= 10) {
+                col = startCol;
+                row += 1;
+            }
+        }
+        for (int i = 0; i < maxHp - hp; i++) {
+            console.drawEmoji(row, col, "💔");
+            col += 2;
+            if (col - startCol >= 10) {
+                col = startCol;
+                row += 1;
+            }
+        }
     }
     
     
@@ -122,15 +154,16 @@ public class StatePanel implements Drawable {
     
     @Override
     public void draw(Console console) {
-        console.drawString("", Color.BLACK, Color.BLACK);
+        console.drawString("", Color.BLACK, Color.WHITE);
         final int startRow = console.height() - console.inventoryHeight();
         final int width = console.width();
         
         int col = 0;
         drawActiveInventory(startRow, col, console);
-        col += widthOfNTiles(5 + MARGIN);
+        col += widthOfNTiles(5) + MARGIN;
+        drawPlayerState(startRow + 3, col, console);
+        col += 10 + MARGIN;
         drawInventory(startRow, col, console);
         col += widthOfNTiles(INVENTORY_SIZE + MARGIN);
-        drawPlayerState(startRow, col, console);
     }
 }

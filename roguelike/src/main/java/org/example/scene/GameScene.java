@@ -17,9 +17,11 @@ public class GameScene implements Drawable {
     private boolean aboutToQuit = false;
 
     private final GameContext game;
+    private final StatePanel statePanel;
     
     public GameScene(GameContext game) {
         this.game = game;
+        this.statePanel = new StatePanel(game);
         this.running = true;
     }
     
@@ -56,6 +58,6 @@ public class GameScene implements Drawable {
     @Override
     public void draw(Console console) {
         this.game.getCurrentLevel().draw(console);
-        new StatePanel(this.game).draw(console);
+        this.statePanel.draw(console);
     }
 }

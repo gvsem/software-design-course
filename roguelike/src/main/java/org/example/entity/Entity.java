@@ -1,5 +1,10 @@
 package org.example.entity;
 
+
+import lombok.Getter;
+
+
+@Getter
 public abstract class Entity {
     private final long maxHp;
 
