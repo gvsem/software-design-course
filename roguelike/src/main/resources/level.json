@@ -1,63 +1,28 @@
 {
   "$id": "https://example.com/person.schema.json",
-  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$schema": "http://json-schema.org/draft-09/schema#",
   "$defs": {
-    "EmptyBlock": {
-      "properties": {
-        "type": {
-          "const": "EmptyBlock",
-          "description": "A block representing an empty space."
-        }
-      },
-      "required": ["type"],
-      "additionalProperties": false
-    },
 
-    "EntryLevelBlock": {
+    "Block" : {
+      "type": "object",
+      "description": "A block in the map grid.",
       "properties": {
-        "type": {
-          "const": "EnterLevelBlock",
-          "description": "A block representing an entry point to another level."
+        "type" : {
+          "enum" : ["EmptyBlock", "EntryLevelBlock", "ItemBlock", "LeaveLevelBlock", "WallBlock"],
+          "nullable": false
         },
         "levelId": {
-          "type": "string",
-          "description": "The ID of the level to enter."
+          "type" : "string",
+          "description": "The ID of the level to enter, for EntryLevelBlock",
+          "nullable" : false
+        },
+        "prototype" : {
+          "type" : "string",
+          "description": "..., for ItemBlock",
+          "nullable" : false
         }
       },
-      "required": ["type", "levelId"],
-      "additionalProperties": false
-    },
-
-    "ItemBlock": {
-      "type": "object",
-      "properties": {
-        "nameOfItem" : "string"
-      },
-      "description": "A block containing an item that can be collected.",
-      "required": ["type", "prototype"],
-      "additionalProperties": false
-    },
-
-    "LeaveLevelBlock": {
-      "properties": {
-        "type": {
-          "const": "LeaveLevelBlock",
-          "description": "A block representing an exit point from the level."
-        }
-      },
-      "required": ["type"],
-      "additionalProperties": false
-    },
-
-    "WallBlock": {
-      "properties": {
-        "type": {
-          "const": "WallBlock",
-          "description": "An impassable block preventing movement."
-        }
-      },
-      "required": ["type"],
-      "additionalProperties": false
+      "required" : ["type"]
     }
   },
 
@@ -65,13 +30,15 @@
   "title": "Level",
   "description": "A structure representing a level in a game, containing a map grid and a position.",
   "properties": {
-    "mapapa": {
+    "map": {
       "type": "array",
       "description": "A grid of blocks, each cell contains a block object.",
       "items": {
-        "type": "object",
-        "description": "A block in the map grid.",
-        "oneOf": [{ "$ref": "#/$defs/EmptyBlock" }, { "$ref": "#/$defs/EntryLevelBlock" }]
+        "type": "array",
+        "items" : {
+          "type": "object",
+          "$ref" : "#/$defs/Block"
+        }
       }
     },
     "position": {
