@@ -43,7 +43,7 @@ public class GameApplication implements Console {
                 .setInitialTerminalSize(new TerminalSize(WIDTH, HEIGHT))
                 .createTerminal();
         terminal.setCursorVisible(false);
-        terminal.setBackgroundColor(Colors.BLACK);
+        terminal.setBackgroundColor(Colors.WHITE);
         terminal.setForegroundColor(Colors.WHITE);
         Screen screen = new TerminalScreen(terminal);
         screen.startScreen();
@@ -73,6 +73,7 @@ public class GameApplication implements Console {
         try {
             this.terminal.clearScreen();
             textGraphics = terminal.newTextGraphics();
+            textGraphics.setBackgroundColor(new TextColor.RGB(255,255,255));
             scene.draw(this);
             this.terminal.flush();
         } catch (IOException e) {}
@@ -85,6 +86,8 @@ public class GameApplication implements Console {
     @Override
     public void drawEmoji(String text) {
         try {
+            textGraphics.setBackgroundColor(new TextColor.RGB(255, 255, 255));
+            textGraphics.setForegroundColor(new TextColor.RGB(255, 255, 255));
             textGraphics.setCharacter(terminal.getCursorPosition(), TextCharacter.fromString(text)[0]);
         } catch (IOException e) {}
     }
@@ -92,9 +95,28 @@ public class GameApplication implements Console {
     @Override
     public void drawString(String text, Color color) {
         try {
-            terminal.setForegroundColor(new TextColor.RGB(color.getRed(), color.getGreen(), color.getBlue()));
-            terminal.putString(text);
+            textGraphics.setBackgroundColor(new TextColor.RGB(255, 255, 255));
+            textGraphics.setForegroundColor(new TextColor.RGB(color.getRed(), color.getGreen(), color.getBlue()));
+            textGraphics.putString(terminal.getCursorPosition(), text);
         } catch (IOException e) {}
+    }
+
+    @Override
+    public void drawString(String text, Color color, Color background) {
+        try {
+            textGraphics.setBackgroundColor(new TextColor.RGB(background.getRed(), background.getGreen(), background.getBlue()));
+            textGraphics.setForegroundColor(new TextColor.RGB(color.getRed(), color.getGreen(), color.getBlue()));
+            textGraphics.putString(terminal.getCursorPosition(), text);
+        } catch (IOException e) {}
+    }
+
+    @Override
+    public void nextLine() {
+        try {
+            terminal.setCursorPosition(0, terminal.getCursorPosition().getRow() + 1);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override

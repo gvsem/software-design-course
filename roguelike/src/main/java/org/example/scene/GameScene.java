@@ -4,6 +4,7 @@ package org.example.scene;
 import lombok.Getter;
 import org.example.Event;
 import org.example.GameContext;
+import org.example.entity.MoveDirection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,6 +38,15 @@ public class GameScene implements Drawable {
         
         switch (event) {
             case QUIT -> aboutToQuit = true;
+            case GAME_LEFT, GAME_RIGHT, GAME_UP, GAME_DOWN -> {
+                MoveDirection direction = switch (event) {
+                    case GAME_RIGHT -> MoveDirection.RIGHT;
+                    case GAME_UP -> MoveDirection.UP;
+                    case GAME_DOWN -> MoveDirection.DOWN;
+                    default -> MoveDirection.LEFT;
+                };
+                game.getCurrentLevel().tryMove(game, game.getPlayer(), direction);
+            }
             default -> {
             }
         }
