@@ -12,6 +12,7 @@ import org.example.view.StatePanel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.awt.*;
 import java.util.List;
 
 
@@ -125,5 +126,16 @@ public class GameScene implements Drawable {
     public void draw(Console console) {
         this.game.getCurrentLevel().draw(console);
         this.statePanel.draw(console);
+        
+        if (aboutToQuit) {
+            final String quitMsg = "Hit ESC again to quit or any other key to continue.";
+            console.drawString(
+                    console.height() / 2,
+                    (console.width() - quitMsg.length()) / 2,
+                    quitMsg,
+                    Color.BLACK,
+                    Color.WHITE
+            );
+        }
     }
 }
