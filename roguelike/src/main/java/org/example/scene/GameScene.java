@@ -72,55 +72,48 @@ public class GameScene implements Drawable {
                 else
                     items.set(itemToPutOnIdx, swapped);
             }
-            case TAKE_OFF_HELMET -> {
+            case TAKE_OFF_HELMET, TAKE_OFF_PLATE, TAKE_OFF_LEGGINGS, TAKE_OFF_BOOTS, TAKE_OFF_SWORD -> {
                 final Player player = game.getPlayer();
                 final ActiveInventory activeInventory = player.getActiveInventory();
+                final List<Item> inventoryItems = player.getInventory().getItems();
                 
-                if (activeInventory.getHelmet() == null)
-                    return;
-                
-                player.getInventory().getItems().add(activeInventory.getHelmet());
-                activeInventory.setHelmet(null);
-            }
-            case TAKE_OFF_PLATE -> {
-                final Player player = game.getPlayer();
-                final ActiveInventory activeInventory = player.getActiveInventory();
-                
-                if (activeInventory.getPlate() == null)
-                    return;
-                
-                player.getInventory().getItems().add(activeInventory.getPlate());
-                activeInventory.setPlate(null);
-            }
-            case TAKE_OFF_LEGGINGS -> {
-                final Player player = game.getPlayer();
-                final ActiveInventory activeInventory = player.getActiveInventory();
-                
-                if (activeInventory.getLeggings() == null)
-                    return;
-                
-                player.getInventory().getItems().add(activeInventory.getLeggings());
-                activeInventory.setLeggings(null);
-            }
-            case TAKE_OFF_BOOTS -> {
-                final Player player = game.getPlayer();
-                final ActiveInventory activeInventory = player.getActiveInventory();
-                
-                if (activeInventory.getBoots() == null)
-                    return;
-                
-                player.getInventory().getItems().add(activeInventory.getHelmet());
-                activeInventory.setBoots(null);
-            }
-            case TAKE_OFF_SWORD -> {
-                final Player player = game.getPlayer();
-                final ActiveInventory activeInventory = player.getActiveInventory();
-                
-                if (activeInventory.getSword() == null)
-                    return;
-                
-                player.getInventory().getItems().add(activeInventory.getSword());
-                activeInventory.setSword(null);
+                switch (event) {
+                    case TAKE_OFF_HELMET -> {
+                        if (activeInventory.getHelmet() == null)
+                            return;
+                        
+                        inventoryItems.add(activeInventory.getHelmet());
+                        activeInventory.setHelmet(null);
+                    }
+                    case TAKE_OFF_PLATE -> {
+                        if (activeInventory.getPlate() == null)
+                            return;
+                        
+                        inventoryItems.add(activeInventory.getPlate());
+                        activeInventory.setPlate(null);
+                    }
+                    case TAKE_OFF_LEGGINGS -> {
+                        if (activeInventory.getLeggings() == null)
+                            return;
+                        
+                        inventoryItems.add(activeInventory.getLeggings());
+                        activeInventory.setLeggings(null);
+                    }
+                    case TAKE_OFF_BOOTS -> {
+                        if (activeInventory.getBoots() == null)
+                            return;
+                        
+                        inventoryItems.add(activeInventory.getHelmet());
+                        activeInventory.setBoots(null);
+                    }
+                    case TAKE_OFF_SWORD -> {
+                        if (activeInventory.getSword() == null)
+                            return;
+                        
+                        inventoryItems.add(activeInventory.getSword());
+                        activeInventory.setSword(null);
+                    }
+                }
             }
             default -> {
             }
