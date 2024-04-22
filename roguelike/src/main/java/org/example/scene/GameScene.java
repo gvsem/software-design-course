@@ -4,6 +4,7 @@ package org.example.scene;
 import lombok.Getter;
 import org.example.Event;
 import org.example.GameContext;
+import org.example.view.StatePanel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -45,5 +46,6 @@ public class GameScene implements Drawable {
     @Override
     public void draw(Console console) {
         this.game.getCurrentLevel().draw(console);
+        new StatePanel(this.game).draw(console);
     }
 }
