@@ -18,8 +18,18 @@ public class StatePanel implements Drawable {
     private static final int INVENTORY_SIZE = 7;
     private static final int MARGIN = 4;
     private final GameContext game;
-    private int curInventoryItem = 0;
+    private int focusedInventoryTile = 0;
     private int curInventoryItemFrom = 0;
+    
+    
+    public void decFocusedInventoryTile() {
+        focusedInventoryTile = Math.max(0, focusedInventoryTile - 1);
+    }
+    
+    
+    public void incFocusedInventoryTile() {
+        focusedInventoryTile = Math.min(INVENTORY_SIZE - 1, focusedInventoryTile + 1);
+    }
     
     
     private void drawHorizontal(int startRow, int startCol, int len, Console console) {
@@ -107,6 +117,9 @@ public class StatePanel implements Drawable {
     
     private void drawInventory(int startRow, int startCol, Console console) {
         drawTable(startRow, startCol, INVENTORY_SIZE, console);
+        for (int row = 0; row < 3; row++)
+            for (int col = 0; col < 4; col++)
+                console.drawString(startRow + 1 + row, startCol + 1 + 5 * focusedInventoryTile + col, " ", Color.WHITE, Color.GRAY);
         
         List<Item> inventory = game.getPlayer().getInventory().getItems();
         if (inventory.size() > curInventoryItemFrom + INVENTORY_SIZE)

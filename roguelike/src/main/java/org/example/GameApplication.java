@@ -129,6 +129,16 @@ public class GameApplication implements Console {
     }
     
     @Override
+    public void drawString(int row, int col, String text, Color color, Color background) {
+        try {
+            textGraphics.setBackgroundColor(new TextColor.RGB(background.getRed(), background.getGreen(), background.getBlue()));
+            terminal.setForegroundColor(new TextColor.RGB(color.getRed(), color.getGreen(), color.getBlue()));
+            textGraphics.putString(col, row, text);
+        } catch (IOException e) {
+        }
+    }
+    
+    @Override
     public void nextLine() {
         try {
             terminal.setCursorPosition(0, terminal.getCursorPosition().getRow() + 1);

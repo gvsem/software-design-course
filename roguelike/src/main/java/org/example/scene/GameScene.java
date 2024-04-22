@@ -50,6 +50,8 @@ public class GameScene implements Drawable {
                 };
                 game.getCurrentLevel().tryMove(game, game.getPlayer(), direction);
             }
+            case INVENTORY_LEFT -> statePanel.decFocusedInventoryTile();
+            case INVENTORY_RIGHT -> statePanel.incFocusedInventoryTile();
             default -> {
             }
         }

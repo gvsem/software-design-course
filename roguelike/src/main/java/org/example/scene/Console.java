@@ -8,6 +8,7 @@ public interface Console {
     void drawString(int row, int col, String text, Color color);
     void drawString(String text, Color color);
     void drawString(String text, Color color, Color background);
+    void drawString(int row, int col, String text, Color color, Color background);
     void nextLine();
     int width();
     int height();
