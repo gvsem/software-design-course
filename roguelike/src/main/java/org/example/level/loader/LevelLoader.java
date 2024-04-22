@@ -33,7 +33,7 @@ public class LevelLoader {
                         case "EmptyBlock":
                             thatBlock = new EmptyBlock();
                             break;
-                        case "EntryLevelBlock":
+                        case "EnterLevelBlock":
                             thatBlock = new EnterLevelBlock(block.getLevelIdToEnter());
                             break;
                         case "ItemBlock":
@@ -60,6 +60,12 @@ public class LevelLoader {
                             break;
                         case "LeaveLevelBlock":
                             thatBlock = new LeaveLevelBlock();
+                            break;
+                        case "CactusBlock":
+                            thatBlock = new CactusBlock();
+                            break;
+                        case "HealBlock":
+                            thatBlock = new HealBlock();
                             break;
                     }
                     realRow.add(thatBlock);

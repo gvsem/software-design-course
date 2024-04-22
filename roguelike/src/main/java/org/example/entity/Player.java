@@ -16,4 +16,12 @@ public class Player extends Entity {
     public Player() {
         super(10);
     }
+
+    public void hit(int hp) {
+        this.hp -= hp;
+    }
+
+    public void heal(int hp) {
+        this.hp += hp;
+    }
 }

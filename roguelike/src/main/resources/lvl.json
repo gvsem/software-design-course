@@ -47,10 +47,10 @@
     ],
     [
       {"type" : "EmptyBlock"},
+      {"type" : "CactusBlock"},
       {"type" : "EmptyBlock"},
       {"type" : "EmptyBlock"},
-      {"type" : "EmptyBlock"},
-      {"type" : "EmptyBlock"},
+      {"type" : "HealBlock"},
       {"type" : "EmptyBlock"}
     ]
   ],
