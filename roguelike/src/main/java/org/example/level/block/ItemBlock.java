@@ -4,10 +4,15 @@ import org.example.GameContext;
 import org.example.entity.Entity;
 import org.example.entity.MoveDirection;
 import org.example.inventory.item.Item;
+import org.example.scene.Console;
+
+import java.awt.Color;
 
 public class ItemBlock extends Block {
 
     private final Item prototype;
+
+    private boolean taken = false;
 
     public ItemBlock(Item item) {
         super(item.getIcon(), item.getColor());
@@ -16,8 +21,22 @@ public class ItemBlock extends Block {
 
     @Override
     public boolean onVisit(Entity entity, MoveDirection direction, GameContext context) {
-        context.getPlayer().getInventory().getItems().add(prototype.clone());
-        return false;
+        if (!taken) {
+            context.getPlayer().getInventory().getItems().add(prototype.clone());
+            this.icon = "  ";
+            taken = true;
+        }
+        return true;
+    }
+
+
+    @Override
+    public void draw(Console console) {
+        if (!taken) {
+            prototype.draw(console);
+        } else {
+            console.drawString("  ", Color.WHITE);
+        }
     }
 
     @Override
