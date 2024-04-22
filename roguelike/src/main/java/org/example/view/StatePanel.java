@@ -49,6 +49,11 @@ public class StatePanel implements Drawable {
     }
     
     
+    public int getFocusedInventoryItemIdx() {
+        return curInventoryItemFrom + focusedInventoryTile;
+    }
+    
+    
     private void drawHorizontal(int startRow, int startCol, int len, Console console) {
         for (int i = 0; i < len; i++)
             console.drawString(startRow, startCol + i, "─", Color.WHITE);
