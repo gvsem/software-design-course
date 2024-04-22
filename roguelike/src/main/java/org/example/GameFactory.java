@@ -10,8 +10,8 @@ public class GameFactory {
     public static GameContext createBasicGame() {
         return new GameContext.Builder()
                 .registerLevel("main", LevelGenerator.generateMainLevel())
-                .registerLevel("sublocation", LevelLoader.loadLevel(Path.of("sublocation.json")))
-                .setInitialLevel("main")
+                .registerLevel("sublocation", LevelLoader.loadLevel(Path.of("./src/main/resources/lvl.json")))
+                .setInitialLevel("sublocation")
                 .build();
     }
 

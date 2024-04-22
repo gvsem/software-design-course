@@ -8,7 +8,7 @@
       "description": "A block in the map grid.",
       "properties": {
         "type" : {
-          "enum" : ["EmptyBlock", "EntryLevelBlock", "ItemBlock", "LeaveLevelBlock", "WallBlock"],
+          "enum" : ["EmptyBlock", "EnterLevelBlock", "ItemBlock", "LeaveLevelBlock", "WallBlock"],
           "nullable": false
         },
         "levelIdToEnter": {

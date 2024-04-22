@@ -8,6 +8,7 @@ import org.example.level.util.Position;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +17,7 @@ import java.util.List;
 public class LevelLoader {
 
     public static Level loadLevel(Path file) {
-        try (InputStream is = LevelLoader.class.getResourceAsStream(file.toString())) {
+        try (InputStream is = Files.newInputStream(file)) {
             ObjectMapper mapper = new ObjectMapper();
             org.example.level.pojo.Level json = mapper.readValue(is, org.example.level.pojo.Level.class);
 
@@ -66,11 +67,10 @@ public class LevelLoader {
             }
             org.example.level.pojo.Position position = json.getPosition();
             Position realPosition = new Position(position.getX(), position.getY());
-            return new Level(realPosition, realMap.toArray(new Block[0][0]));
+            return new Level(realPosition, realMap.toArray(new Block[realMap.size()][realMap.get(0).size()]));
 
         } catch (IOException e) {
-            e.printStackTrace();
-            return null;
+            throw new RuntimeException(e);
         }
     }
 

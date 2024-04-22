@@ -1,70 +1,61 @@
 {
   "map": [
     [
-      {},
-      {},
-      {},
-      {},
-      {},
-      {}
+      {"type" : "EmptyBlock"},
+      {"type" : "EmptyBlock"},
+      {"type" : "EmptyBlock"},
+      {"type" : "EmptyBlock"},
+      {"type" : "EmptyBlock"},
+      {"type" : "EmptyBlock"}
     ],
     [
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
-      {}
+      {"type" : "EmptyBlock"},
+      {"type" : "EmptyBlock"},
+      {"type" : "ItemBlock",
+      "itemName" : "Sword"
+      },
+      {"type" : "WallBlock"},
+      {"type" : "EmptyBlock"},
+      {"type" : "EmptyBlock"}
     ],
     [
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
-      {}
+      {"type" : "WallBlock"},
+      {"type" : "WallBlock"},
+      {"type" : "EmptyBlock"},
+      {"type" : "WallBlock"},
+      {"type" : "WallBlock"},
+      {"type" : "WallBlock"}
     ],
     [
-      {},
-      {},
-      {}
+      {"type" : "EnterLevelBlock",
+      "levelIdToEnter" : "main"
+      },
+      {"type" : "EmptyBlock"},
+      {"type" : "EmptyBlock"},
+      {"type" : "EmptyBlock"},
+      {"type" : "EmptyBlock"},
+      {"type" : "EnterLevelBlock",
+        "levelIdToEnter" : "main"}
     ],
     [
-      {},
-      {},
-      {},
-      {}
+      {"type" : "EmptyBlock"},
+      {"type" : "EmptyBlock"},
+      {"type" : "EmptyBlock"},
+      {"type" : "EmptyBlock"},
+      {"type" : "EmptyBlock"},
+      {"type" : "EmptyBlock"}
     ],
     [
-      {},
-      {},
-      {},
-      {},
-      {},
-      {}
-    ],
-    [
-      {},
-      {}
-    ],
-    [
-      {},
-      {},
-      {},
-      {},
-      {}
+      {"type" : "EmptyBlock"},
+      {"type" : "EmptyBlock"},
+      {"type" : "EmptyBlock"},
+      {"type" : "EmptyBlock"},
+      {"type" : "EmptyBlock"},
+      {"type" : "EmptyBlock"}
     ]
   ],
   "position": {
     "x": 0,
     "y": 0
-  },
-  "": false,
-  "EmptyBlock": 0,
-  "EntryLevelBlock": 0.0,
-  "ItemBlock": 0.0,
-  "LeaveLevelBlock": 0.0,
-  "WallBlock": []
+  }
 }
