@@ -1,32 +1,41 @@
 package org.example.entity;
 
+
+import lombok.Getter;
+import lombok.Setter;
 import org.example.inventory.ActiveInventory;
 import org.example.inventory.Inventory;
 
-import lombok.Getter;
 
+@Getter
 public class Player extends Entity {
-
-    @Getter
+    @Setter
+    private int xp;
+    private int level;
     private final Inventory inventory = new Inventory();
-
-    @Getter
     private final ActiveInventory activeInventory = new ActiveInventory();
-
+    
+    
     public Player() {
         super(10);
+        xp = 0;
+        level = 1;
     }
-
-    public void hit(int hp) {
-        this.hp -= hp;
+    
+    
+    @Override
+    public int getStrength() {
+        return super.getStrength() * level;
     }
-
-    public void heal(int hp) {
-        this.hp = Math.min(getMaxHp(), this.hp + hp);
-    }
-
+    
+    
     @Override
     public String getId() {
         return "player";
+    }
+    
+    
+    public void incLevel(int delta) {
+        level += delta;
     }
 }
