@@ -13,7 +13,7 @@ import lombok.Setter;
 
 public class MobFactory  {
 
-    public static Mob createKiller(Position position, Level level) {
-        return new Mob.Builder(10L, level).setMoveStrategy(new AggressiveStrategy()).setPosition(position).build();
+    public static Mob createKiller(Position position, Level level, GameContext gameContext) {
+        return new Mob.Builder(10L, level, gameContext).setMoveStrategy(new AggressiveStrategy()).setPosition(position).build();
     }
 }

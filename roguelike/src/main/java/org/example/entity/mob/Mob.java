@@ -1,5 +1,6 @@
 package org.example.entity.mob;
 
+import org.example.GameContext;
 import org.example.entity.Entity;
 import org.example.entity.strategy.MoveStrategy;
 import org.example.entity.strategy.StandStrategy;
@@ -28,14 +29,18 @@ public class Mob extends Entity implements Tickable {
         private final Mob object;
         private final Level level;
 
-        public Builder(Long initialHp, Level level) {
+        private final GameContext gameContext;
+
+        public Builder(Long initialHp, Level level, GameContext gameContext) {
             this.object = new Mob(initialHp);
             this.level = level;
+            this.gameContext = gameContext;
         }
 
         public Builder setMoveStrategy(MoveStrategy strategy) {
             strategy.setOwner(object);
             strategy.setLevel(level);
+            strategy.setGameContext(gameContext);
             object.setMoveStrategy(strategy);
             return this;
         }
