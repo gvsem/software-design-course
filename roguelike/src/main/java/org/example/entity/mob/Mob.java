@@ -3,6 +3,7 @@ package org.example.entity.mob;
 import org.example.entity.Entity;
 import org.example.entity.strategy.MoveStrategy;
 import org.example.entity.strategy.StandStrategy;
+import org.example.level.Level;
 import org.example.level.util.Position;
 import org.example.scene.Tickable;
 
@@ -25,12 +26,16 @@ public class Mob extends Entity implements Tickable {
 
     public static class Builder {
         private final Mob object;
+        private final Level level;
 
-        public Builder(Long initialHp) {
-            object = new Mob(initialHp);
+        public Builder(Long initialHp, Level level) {
+            this.object = new Mob(initialHp);
+            this.level = level;
         }
 
         public Builder setMoveStrategy(MoveStrategy strategy) {
+            strategy.setOwner(object);
+            strategy.setLevel(level);
             object.setMoveStrategy(strategy);
             return this;
         }
