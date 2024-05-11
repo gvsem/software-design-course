@@ -1,7 +1,10 @@
 package org.example.entity;
 
 
+import org.example.level.util.Position;
+
 import lombok.Getter;
+import lombok.Setter;
 
 
 @Getter
