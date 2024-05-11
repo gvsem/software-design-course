@@ -1,5 +1,7 @@
 package org.example.level.generator;
 
+import org.example.GameContext;
+import org.example.entity.mob.MobFactory;
 import org.example.inventory.item.Item;
 import org.example.inventory.item.wearable.*;
 import org.example.level.Level;
@@ -12,11 +14,11 @@ import org.example.level.util.Position;
 
 public class LevelGenerator {
 
-    public static Level generateMainLevel() {
-        Integer WIDTH = 100;
-        Integer HEIGHT = 100;
+    public static Level generateMainLevel(GameContext gameContext) {
+        Integer WIDTH = 30;
+        Integer HEIGHT = 30;
         Integer NUMBER_OF_ITEMS = 10;
-        Integer NUMBER_OF_WALLS = 500;
+        Integer NUMBER_OF_WALLS = 30;
         Block[][] map = new Block[HEIGHT][WIDTH];
 
         for (int i = 0; i < NUMBER_OF_ITEMS; i++) {
@@ -61,16 +63,19 @@ public class LevelGenerator {
             map[y][x] = new LeaveLevelBlock();
         }
 
-
-
-        return new Level(new Position(0, 0), map);
+        Level level = new Level(map)
+                .setEntityPosition("player", new Position(0, 0));
+        return level
+                .spawnMob(MobFactory.createKiller(level, gameContext), new Position(WIDTH / 2, HEIGHT / 2))
+                .spawnMob(MobFactory.createStander(level, gameContext), new Position(WIDTH / 2 - 5, HEIGHT / 2 - 5))
+                .spawnMob(MobFactory.createCoward(level, gameContext), new Position(WIDTH / 2 + 5, HEIGHT / 2 + 5));
     }
 
     public static Level generateBasicLevel() {
         Level level = new Level(100, 100);
         level.getMap()[45][45] = new WallBlock();
         level.getMap()[66][66] = new LeaveLevelBlock();
-        level.setPlayerPosition(new Position(50, 50));
+        level.setEntityPosition("player", new Position(50, 50));
         return level;
     }
 

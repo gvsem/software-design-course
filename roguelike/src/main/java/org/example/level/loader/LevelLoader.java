@@ -12,7 +12,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 
 public class LevelLoader {
@@ -74,7 +73,8 @@ public class LevelLoader {
             }
             org.example.level.pojo.Position position = json.getPosition();
             Position realPosition = new Position(position.getX(), position.getY());
-            return new Level(realPosition, realMap.stream().map(e -> e.toArray(new Block[realMap.get(0).size()])).toArray(Block[][]::new));
+            return new Level(realMap.stream().map(e -> e.toArray(new Block[realMap.get(0).size()])).toArray(Block[][]::new))
+                    .setEntityPosition("player", realPosition);
 
         } catch (IOException e) {
             throw new RuntimeException(e);

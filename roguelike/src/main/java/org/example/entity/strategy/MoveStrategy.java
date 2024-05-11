@@ -20,10 +20,8 @@ public abstract class MoveStrategy implements Tickable {
     protected GameContext gameContext = null;
 
     @Getter @Setter
-    protected Integer ticksToPassOneBlock = 5;
+    protected Integer ticksToPassOneBlock = 15;
 
-    @Getter @Setter
-    protected Integer currentTick = 0;
 
     /**
      * Handles one game tick and returns true, if any game change has happened

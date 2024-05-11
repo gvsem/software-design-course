@@ -27,46 +27,60 @@ import java.io.IOException;
 public class GameApplication implements Console {
     private GameScene scene = null;
     private Terminal terminal = null;
+    private Screen screen = null;
     private TextGraphics textGraphics = null;
     
     private final int WIDTH = 80;
     private final int HEIGHT = 24;
-    
-    
+
     public GameApplication(GameContext context) {
         scene = new GameScene(context);
-    }
-    
-    
-    public void run() throws IOException {
-        terminal = new DefaultTerminalFactory()
-                .setInitialTerminalSize(new TerminalSize(WIDTH, HEIGHT))
-                .createTerminal();
-        terminal.setCursorVisible(false);
-        terminal.setBackgroundColor(Colors.WHITE);
-        terminal.setForegroundColor(Colors.WHITE);
-        Screen screen = new TerminalScreen(terminal);
-        screen.startScreen();
-        
-        render();
-        
-        
-        while (scene.isRunning()) {
-            KeyStroke keyStroke = screen.readInput();
-            
-            if (keyStroke == null)
-                continue;
-            
-            if (keyStroke.getKeyType().equals(KeyType.EOF)) {
-                exit(0);
-            }
-            
-            scene.submitEvent(KeyStrokeToEventMapper.map(keyStroke));
-            render();
-            screen.refresh();
+        try {
+            terminal = new DefaultTerminalFactory()
+                    .setInitialTerminalSize(new TerminalSize(WIDTH, HEIGHT))
+                    .createTerminal();
+
+            terminal.setCursorVisible(false);
+            terminal.setBackgroundColor(Colors.WHITE);
+            terminal.setForegroundColor(Colors.WHITE);
+
+            screen = new TerminalScreen(terminal);
+            screen.startScreen();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
-        
-        screen.stopScreen();
+        new Thread(new RenderTask()).start();
+    }
+
+    private class RenderTask implements Runnable {
+        @Override
+        public void run() {
+            try {
+                long time = 0L;
+                while (scene.isRunning()) {
+                    try {
+                        Thread.sleep(50);
+
+                        KeyStroke keyStroke = screen.pollInput();
+                        while (keyStroke != null) {
+                            if (keyStroke.getKeyType().equals(KeyType.EOF)) {
+                                exit(0);
+                            }
+
+                            scene.submitEvent(KeyStrokeToEventMapper.map(keyStroke));
+                            keyStroke = screen.pollInput();
+                        }
+
+                        scene.tick(time++);
+                        render();
+                        screen.refresh();
+                    } catch (InterruptedException ignored) {}
+                }
+                screen.stopScreen();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
     
     private void render() {
@@ -80,7 +94,7 @@ public class GameApplication implements Console {
     }
     
     public static void main(String[] args) throws IOException {
-        new GameApplication(GameFactory.createBasicGame()).run();
+        GameApplication app = new GameApplication(GameFactory.createBasicGame());
     }
     
     

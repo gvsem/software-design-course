@@ -3,21 +3,26 @@ package org.example.entity.mob;
 import org.example.GameContext;
 import org.example.entity.Entity;
 import org.example.entity.strategy.MoveStrategy;
-import org.example.entity.strategy.StandStrategy;
+import org.example.entity.strategy.NeutralStrategy;
 import org.example.level.Level;
 import org.example.level.util.Position;
+import org.example.scene.Drawable;
 import org.example.scene.Tickable;
+
+import java.util.UUID;
 
 import lombok.Getter;
 import lombok.Setter;
 
-public class Mob extends Entity implements Tickable {
+public class Mob extends Entity implements Drawable, Tickable {
 
     @Getter @Setter
-    private MoveStrategy moveStrategy = new StandStrategy();
+    private MoveStrategy moveStrategy = new NeutralStrategy();
 
-    @Getter @Setter
-    protected Position position = new Position(-1, -1);
+    @Getter
+    protected String id = UUID.randomUUID().toString().substring(0, 5);
+
+    private String icon = "  ";
 
     protected Mob(Long initialHp) {super(initialHp); }
 
@@ -45,8 +50,13 @@ public class Mob extends Entity implements Tickable {
             return this;
         }
 
-        public Builder setPosition(Position position) {
-            object.setPosition(position);
+        public Builder setIcon(String icon) {
+            object.icon = icon;
+            return this;
+        }
+
+        public Builder setId(String id) {
+            object.id = id;
             return this;
         }
 
@@ -58,5 +68,15 @@ public class Mob extends Entity implements Tickable {
     @Override
     public boolean tick(Long time) {
         return moveStrategy.tick(time);
+    }
+
+    @Override
+    public boolean isEmojiIcon() {
+        return true;
+    }
+
+    @Override
+    public String getIcon() {
+        return icon;
     }
 }

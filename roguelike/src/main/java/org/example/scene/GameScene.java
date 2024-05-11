@@ -16,7 +16,7 @@ import java.awt.*;
 import java.util.List;
 
 
-public class GameScene implements Drawable {
+public class GameScene implements Drawable, Tickable {
     private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
     @Getter
     private boolean running = false;
@@ -137,5 +137,10 @@ public class GameScene implements Drawable {
                     Color.WHITE
             );
         }
+    }
+
+    @Override
+    public boolean tick(Long time) {
+        return game.getCurrentLevel().tick(time);
     }
 }

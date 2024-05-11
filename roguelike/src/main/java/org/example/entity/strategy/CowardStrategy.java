@@ -10,14 +10,12 @@ import java.util.Vector;
 public class CowardStrategy extends MoveStrategy {
     @Override
     public boolean tick(Long time) {
-        if (currentTick % ticksToPassOneBlock != 0) {
-            currentTick += 1;
+        if (time % ticksToPassOneBlock != 0) {
             return false;
         }
-        currentTick = 0;
 
-        Position mobPosition = owner.getPosition();
-        Position playerPosition = owner.getPosition();
+        Position mobPosition = level.getPosition().get(owner.getId());
+        Position playerPosition = level.getPlayerPosition();
 
         Position p = playerPosition.diff(mobPosition);
 
@@ -29,7 +27,7 @@ public class CowardStrategy extends MoveStrategy {
             if (projX > 0) md = MoveDirection.LEFT;
             else md = MoveDirection.RIGHT;
         } else {
-            if (projY > 0) md = MoveDirection.DOWN;
+            if (projY < 0) md = MoveDirection.DOWN;
             else md = MoveDirection.UP;
         }
 

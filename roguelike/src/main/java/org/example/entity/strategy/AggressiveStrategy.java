@@ -7,14 +7,12 @@ import org.example.scene.Tickable;
 public class AggressiveStrategy extends MoveStrategy {
     @Override
     public boolean tick(Long time) {
-        if (currentTick % ticksToPassOneBlock != 0) {
-            currentTick += 1;
+        if (time % ticksToPassOneBlock != 0) {
             return false;
         }
-        currentTick = 0;
 
-        Position mobPosition = owner.getPosition();
-        Position playerPosition = owner.getPosition();
+        Position mobPosition = level.getPosition().get(owner.getId());
+        Position playerPosition = level.getPlayerPosition();
 
         Position p = playerPosition.diff(mobPosition);
 
@@ -26,7 +24,7 @@ public class AggressiveStrategy extends MoveStrategy {
             if (projX > 0) md = MoveDirection.RIGHT;
             else md = MoveDirection.LEFT;
         } else {
-            if (projY > 0) md = MoveDirection.UP;
+            if (projY < 0) md = MoveDirection.UP;
             else md = MoveDirection.DOWN;
         }
 

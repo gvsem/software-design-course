@@ -17,4 +17,6 @@ public abstract class Entity {
         this.maxHp = initialHp;
         this.hp = this.maxHp;
     }
+
+    public abstract String getId();
 }

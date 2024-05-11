@@ -24,4 +24,9 @@ public class Player extends Entity {
     public void heal(int hp) {
         this.hp = Math.min(getMaxHp(), this.hp + hp);
     }
+
+    @Override
+    public String getId() {
+        return "player";
+    }
 }

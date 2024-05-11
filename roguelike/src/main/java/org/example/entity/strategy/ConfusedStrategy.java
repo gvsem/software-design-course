@@ -8,11 +8,9 @@ import java.util.Random;
 public class ConfusedStrategy extends MoveStrategy {
     @Override
     public boolean tick(Long time) {
-        if (currentTick % ticksToPassOneBlock != 0) {
-            currentTick += 1;
+        if (time % ticksToPassOneBlock != 0) {
             return false;
         }
-        currentTick = 0;
 
         Random randomGenerator = new Random();
         double d = randomGenerator.nextDouble();
@@ -25,6 +23,5 @@ public class ConfusedStrategy extends MoveStrategy {
         else md = MoveDirection.LEFT;
 
         return getLevel().tryMove(gameContext, owner, md);
-
     }
 }
