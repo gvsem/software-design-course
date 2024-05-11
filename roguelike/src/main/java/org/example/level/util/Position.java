@@ -5,4 +5,8 @@ public record Position(int x, int y) implements Cloneable {
     public Object clone() throws CloneNotSupportedException {
         return super.clone();
     }
+
+    public Position diff(Position other) {
+        return new Position(this.x - other.x, this.y - other.y);
+    }
 }
