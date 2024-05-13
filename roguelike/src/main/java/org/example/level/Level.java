@@ -14,8 +14,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.awt.Color;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -33,19 +31,24 @@ public class Level implements Drawable, Tickable, Cloneable {
     private Map<String, Position> position = new ConcurrentHashMap<>();
 
     @Getter
-    private final Map<String, Mob> mobs = new ConcurrentHashMap<>();
+    private final Map<String, Entity> entities = new ConcurrentHashMap<>();
 
     @Getter
-    private final Mob[][] mobPositionCache;
+    private final Entity[][] entityPositionCache;
 
-    public Level(Integer width, Integer height) {
+    @Getter
+    private final GameContext gameContext;
+
+    public Level(GameContext gameContext, Integer width, Integer height) {
         this.map = new Block[width][height];
-        this.mobPositionCache = new Mob[width][height];
+        this.entityPositionCache = new Entity[width][height];
+        this.gameContext = gameContext;
     }
 
-    public Level(Block[][] map) {
+    public Level(GameContext gameContext, Block[][] map) {
         this.map = map;
-        this.mobPositionCache = new Mob[map.length][map[0].length];
+        this.entityPositionCache = new Entity[map.length][map[0].length];
+        this.gameContext = gameContext;
     }
 
     public int getWidth() {
@@ -56,22 +59,25 @@ public class Level implements Drawable, Tickable, Cloneable {
         return this.map.length;
     }
 
-    public synchronized Level setEntityPosition(String entityId, Position position) {
+    private synchronized void setEntityPosition(String entityId, Position position) {
         if (this.position.containsKey(entityId)) {
             int x, y;
             x = this.position.get(entityId).x();
             y = this.position.get(entityId).y();
-            this.mobPositionCache[x][y] = null;
+            this.entityPositionCache[x][y] = null;
         }
         this.position.put(entityId, position);
-        if (!entityId.equals("player")) {
-            this.mobPositionCache[position.x()][position.y()] = this.mobs.get(entityId);
-        }
+        this.entityPositionCache[position.x()][position.y()] = this.entities.get(entityId);
+    }
+
+    public synchronized Level spawnPlayer(Position position) {
+        this.entities.put("player", gameContext.getPlayer());
+        this.setEntityPosition("player", position);
         return this;
     }
 
-    public synchronized Level spawnMob(Mob entity, Position position) {
-        this.mobs.put(entity.getId(), entity);
+    public synchronized Level spawn(Mob entity, Position position) {
+        this.entities.put(entity.getId(), entity);
         this.setEntityPosition(entity.getId(), position);
         return this;
     }
@@ -90,8 +96,8 @@ public class Level implements Drawable, Tickable, Cloneable {
             case RIGHT -> x++;
         }
         if ((0 <= x) && (x < getWidth()) && (0 <= y) && (y < getHeight())) {
-            if (mobPositionCache[x][y] != null) {
-                CombatHandler.fight(entity, mobPositionCache[x][y]);
+            if (entityPositionCache[x][y] != null) {
+                CombatHandler.fight(entity, entityPositionCache[x][y]);
                 return false;
             } else if (map[y][x] == null || map[y][x].onVisit(entity, direction, context)) {
                 LOGGER.debug("entity " + entity.getId() + " moved from (" + this.position.get(entity.getId()).x() + ", " +
@@ -122,10 +128,11 @@ public class Level implements Drawable, Tickable, Cloneable {
        for (int y = 0; y < console.height(); y++) {
            for (int x = 0; x < console.width() / 2; x++) {
                if (0 <= l + x && l + x < getWidth() && 0 <= t + y &&  t + y < getHeight()) {
-                   if (l + x == playerPosition.x() && t + y == playerPosition.y()) {
-                       console.drawEmoji("\uD83D\uDE00");
-                   } else if (mobPositionCache[l + x][t + y] != null) {
-                       mobPositionCache[l + x][t + y].draw(console);
+//                   if (l + x == playerPosition.x() && t + y == playerPosition.y()) {
+//                       console.drawEmoji("\uD83D\uDE00");
+//                   } else
+                       if (entityPositionCache[l + x][t + y] != null) {
+                       entityPositionCache[l + x][t + y].draw(console);
                    } else if (map[t + y][l + x] != null) {
                        map[t + y][l + x].draw(console);
                    } else {
@@ -156,8 +163,10 @@ public class Level implements Drawable, Tickable, Cloneable {
     @Override
     public synchronized boolean tick(Long time) {
         boolean changed = false;
-        for (Mob mob : this.mobs.values()) {
-            changed |= mob.tick(time);
+        for (Entity mob : this.entities.values()) {
+            if (mob instanceof Mob) {
+                changed |= ((Mob) mob).tick(time);
+            }
         }
         return changed;
     }

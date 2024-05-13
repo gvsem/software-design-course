@@ -63,19 +63,19 @@ public class LevelGenerator {
             map[y][x] = new LeaveLevelBlock();
         }
 
-        Level level = new Level(map)
-                .setEntityPosition("player", new Position(0, 0));
+        Level level = new Level(gameContext, map)
+                .spawnPlayer(new Position(0, 0));
         return level
-                .spawnMob(MobFactory.createKiller(level, gameContext), new Position(WIDTH / 2, HEIGHT / 2))
-                .spawnMob(MobFactory.createStander(level, gameContext), new Position(WIDTH / 2 - 5, HEIGHT / 2 - 5))
-                .spawnMob(MobFactory.createCoward(level, gameContext), new Position(WIDTH / 2 + 5, HEIGHT / 2 + 5));
+                .spawn(MobFactory.createKiller(level, gameContext), new Position(WIDTH / 2, HEIGHT / 2))
+                .spawn(MobFactory.createStander(level, gameContext), new Position(WIDTH / 2 - 5, HEIGHT / 2 - 5))
+                .spawn(MobFactory.createCoward(level, gameContext), new Position(WIDTH / 2 + 5, HEIGHT / 2 + 5));
     }
 
-    public static Level generateBasicLevel() {
-        Level level = new Level(100, 100);
+    public static Level generateBasicLevel(GameContext gameContext) {
+        Level level = new Level(gameContext, 100, 100);
         level.getMap()[45][45] = new WallBlock();
         level.getMap()[66][66] = new LeaveLevelBlock();
-        level.setEntityPosition("player", new Position(50, 50));
+        level.spawnPlayer(new Position(50, 50));
         return level;
     }
 

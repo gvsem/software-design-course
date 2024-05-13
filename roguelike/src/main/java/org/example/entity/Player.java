@@ -21,8 +21,17 @@ public class Player extends Entity {
         xp = 0;
         level = 1;
     }
-    
-    
+
+    @Override
+    public boolean isEmojiIcon() {
+        return true;
+    }
+
+    @Override
+    public String getIcon() {
+        return "\uD83D\uDE00";
+    }
+
     @Override
     public int getStrength() {
         return super.getStrength() * level;

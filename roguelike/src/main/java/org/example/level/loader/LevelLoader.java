@@ -1,6 +1,8 @@
 package org.example.level.loader;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import org.example.GameContext;
 import org.example.inventory.item.wearable.*;
 import org.example.level.Level;
 import org.example.level.block.*;
@@ -16,7 +18,7 @@ import java.util.List;
 
 public class LevelLoader {
 
-    public static Level loadLevel(Path file) {
+    public static Level loadLevel(Path file, GameContext gameContext) {
         try (InputStream is = Files.newInputStream(file)) {
             ObjectMapper mapper = new ObjectMapper();
             org.example.level.pojo.Level json = mapper.readValue(is, org.example.level.pojo.Level.class);
@@ -73,8 +75,8 @@ public class LevelLoader {
             }
             org.example.level.pojo.Position position = json.getPosition();
             Position realPosition = new Position(position.getX(), position.getY());
-            return new Level(realMap.stream().map(e -> e.toArray(new Block[realMap.get(0).size()])).toArray(Block[][]::new))
-                    .setEntityPosition("player", realPosition);
+            return new Level(gameContext, realMap.stream().map(e -> e.toArray(new Block[realMap.get(0).size()])).toArray(Block[][]::new))
+                    .spawnPlayer(realPosition);
 
         } catch (IOException e) {
             throw new RuntimeException(e);

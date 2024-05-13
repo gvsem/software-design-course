@@ -1,11 +1,13 @@
 package org.example.entity;
 
 
+import org.example.scene.Drawable;
+
 import lombok.Getter;
 
 
 @Getter
-public abstract class Entity {
+public abstract class Entity implements Drawable {
     private final long maxHp;
     protected long hp;
     private int strength;

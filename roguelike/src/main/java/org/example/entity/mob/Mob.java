@@ -14,7 +14,7 @@ import java.util.UUID;
 import lombok.Getter;
 import lombok.Setter;
 
-public class Mob extends Entity implements Drawable, Tickable {
+public class Mob extends Entity implements Tickable {
 
     @Getter @Setter
     private MoveStrategy moveStrategy = new NeutralStrategy();
