@@ -158,11 +158,19 @@ public class StatePanel implements Drawable {
     
     private void drawPlayerState(int startRow, int startCol, Console console) {
         final Player player = game.getPlayer();
-        final long maxHp = player.getMaxHp();
-        final long hp = player.getHp();
         
         int row = startRow;
         int col = startCol;
+        
+        final String xpStr = String.format("XP: %d", player.getXp());
+        final String lvlStr = String.format("Lvl: %d", player.getXp());
+        console.drawString(row, col, xpStr, Color.BLACK, Color.WHITE);
+        row++;
+        console.drawString(row, col, lvlStr, Color.BLACK, Color.WHITE);
+        row += 2;
+        
+        final long maxHp = player.getMaxHp();
+        final long hp = player.getHp();
         for (int i = 0; i < hp; i++) {
             console.drawEmoji(row, col, "🩷");
             col += 2;
@@ -196,7 +204,7 @@ public class StatePanel implements Drawable {
         int col = 0;
         drawActiveInventory(startRow, col, console);
         col += widthOfNTiles(5) + MARGIN;
-        drawPlayerState(startRow + 3, col, console);
+        drawPlayerState(startRow, col, console);
         col += 10 + MARGIN;
         drawInventory(startRow, col, console);
         col += widthOfNTiles(INVENTORY_SIZE + MARGIN);
