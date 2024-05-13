@@ -20,7 +20,7 @@ public abstract class MoveStrategy implements Tickable {
     protected GameContext gameContext = null;
 
     @Getter @Setter
-    protected Integer ticksToPassOneBlock = 15;
+    protected Integer ticksToPassOneBlock = 5;
 
 
     /**

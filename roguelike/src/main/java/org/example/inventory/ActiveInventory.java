@@ -1,11 +1,7 @@
 package org.example.inventory;
 
 import org.example.inventory.item.Item;
-import org.example.inventory.item.wearable.Boots;
-import org.example.inventory.item.wearable.Helmet;
-import org.example.inventory.item.wearable.Leggings;
-import org.example.inventory.item.wearable.Plate;
-import org.example.inventory.item.wearable.Sword;
+import org.example.inventory.item.wearable.*;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -45,6 +41,8 @@ public class ActiveInventory {
       } else if (item instanceof Sword) {
          swapped = sword;
          sword = (Sword) item;
+      } else if (item instanceof Poison) {
+
       }
       
       return swapped;

@@ -17,9 +17,9 @@ import lombok.Setter;
 public class Mob extends Entity implements Tickable {
 
     @Getter @Setter
-    private MoveStrategy moveStrategy = new NeutralStrategy();
+    public MoveStrategy moveStrategy = new NeutralStrategy();
 
-    @Getter
+    @Getter @Setter
     protected String id = UUID.randomUUID().toString().substring(0, 5);
 
     private String icon = "  ";

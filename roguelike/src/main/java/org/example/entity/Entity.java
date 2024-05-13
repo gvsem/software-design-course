@@ -11,6 +11,7 @@ public abstract class Entity implements Drawable {
     private final long maxHp;
     protected long hp;
     private int strength;
+    private boolean isConfused = false;
     
     
     public Entity(long initialHp, int initialStrength) {
@@ -40,5 +41,9 @@ public abstract class Entity implements Drawable {
     
     public boolean isDead() {
         return getHp() <= 0;
+    }
+
+    public void confuse() {
+        isConfused = true;
     }
 }

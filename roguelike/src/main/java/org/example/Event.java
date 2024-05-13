@@ -14,6 +14,7 @@ public enum Event {
     TAKE_OFF_LEGGINGS,
     TAKE_OFF_BOOTS,
     TAKE_OFF_SWORD,
+    TAKE_OFF_POISON,
     TAKE,
     QUIT,
 }

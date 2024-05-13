@@ -9,21 +9,38 @@ public class ConfusedMob extends Mob {
     @Getter
     private final Mob mob;
     @Getter
-    private final Long endTime;
-    private final ConfusedStrategy moveStrategy = new ConfusedStrategy();
+    private Long endTime;
 
     public ConfusedMob(Mob mob, Long endTime) {
         super();
         this.mob = mob;
         this.endTime = endTime;
+        this.moveStrategy = new ConfusedStrategy();
+        this.moveStrategy.setLevel(mob.getMoveStrategy().getLevel());
+        this.moveStrategy.setOwner(this);
+        this.moveStrategy.setGameContext(mob.getMoveStrategy().getGameContext());
     }
 
     @Override
     public boolean tick(Long time) {
-        if (time < endTime) {
+        if (endTime > 0) {
+            endTime -= 1;
             return moveStrategy.tick(time);
-        } else {
-            return mob.tick(time);
         }
+        return mob.tick(time);
+    }
+
+    @Override
+    public boolean isEmojiIcon() {
+        return mob.isEmojiIcon();
+    }
+
+    @Override
+    public String getIcon() {
+        if (endTime > 0) {
+            return "\uD83E\uDD2E";
+        }
+        return mob.getIcon();
+
     }
 }

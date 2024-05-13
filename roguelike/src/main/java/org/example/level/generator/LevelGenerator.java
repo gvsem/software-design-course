@@ -26,13 +26,14 @@ public class LevelGenerator {
             int y = (int) (Math.random() * HEIGHT);
             if (map[y][x] == null) {
                 Item item = new Boots();
-                int itemType = (int) (Math.random() * 5);
+                int itemType = (int) (Math.random() * 6);
                 item = switch (itemType) {
                     case 0 -> new Boots();
                     case 1 -> new Helmet();
                     case 2 -> new Leggings();
                     case 3 -> new Plate();
                     case 4 -> new Sword();
+                    case 5 -> new Poison();
                     default -> item;
                 };
                 map[y][x] = new ItemBlock(item);

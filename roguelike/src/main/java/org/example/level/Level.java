@@ -4,6 +4,7 @@ import org.example.GameContext;
 import org.example.entity.Entity;
 import org.example.entity.MoveDirection;
 import org.example.entity.handler.CombatHandler;
+import org.example.entity.mob.ConfusedMob;
 import org.example.entity.mob.Mob;
 import org.example.level.block.Block;
 import org.example.level.util.Position;
@@ -108,6 +109,24 @@ public class Level implements Drawable, Tickable, Cloneable {
             }
         }
         return false;
+    }
+
+    public synchronized boolean tryConfuse(int x, int y) {
+        if ((x < 0) || x > getWidth() || (y < 0) || (y > getHeight())) {
+            return false;
+        }
+        if ((new Position(x, y)).equals(getPlayerPosition())) return false;
+
+        boolean wasConfused = false;
+
+        if (entityPositionCache[x][y] != null) {
+            Mob mob = (Mob) entityPositionCache[x][y];
+            Mob confusedMob = new ConfusedMob(mob, (long) 100);
+            confusedMob.setId(mob.getId());
+            entityPositionCache[x][y] = confusedMob;
+            entities.put(mob.getId(), confusedMob);
+        }
+        return wasConfused;
     }
 
     @Override

@@ -8,6 +8,8 @@ import org.example.entity.MoveDirection;
 import org.example.entity.Player;
 import org.example.inventory.ActiveInventory;
 import org.example.inventory.item.Item;
+import org.example.inventory.item.wearable.Poison;
+import org.example.level.util.Position;
 import org.example.view.StatePanel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -66,6 +68,19 @@ public class GameScene implements Drawable, Tickable {
                 
                 if (itemToPutOnIdx >= items.size())
                     return;
+
+                if (items.get(itemToPutOnIdx) instanceof Poison) {
+                    Position playerPosition = game.getCurrentLevel().getPlayerPosition();
+                    int playerX = playerPosition.x();
+                    int playerY = playerPosition.y();
+                    for (int y = playerY - 3; y < playerX + 3; y++) {
+                        for (int x = playerX - 3; x < playerX + 3; x++) {
+                            game.getCurrentLevel().tryConfuse(x, y);
+                        }
+                    }
+                    items.remove(itemToPutOnIdx);
+                    break;
+                }
                 
                 final Item swapped = player.getActiveInventory().swap(items.get(itemToPutOnIdx));
                 if (swapped == null)
@@ -73,7 +88,7 @@ public class GameScene implements Drawable, Tickable {
                 else
                     items.set(itemToPutOnIdx, swapped);
             }
-            case TAKE_OFF_HELMET, TAKE_OFF_PLATE, TAKE_OFF_LEGGINGS, TAKE_OFF_BOOTS, TAKE_OFF_SWORD -> {
+            case TAKE_OFF_HELMET, TAKE_OFF_PLATE, TAKE_OFF_LEGGINGS, TAKE_OFF_BOOTS, TAKE_OFF_SWORD, TAKE_OFF_POISON -> {
                 final Player player = game.getPlayer();
                 final ActiveInventory activeInventory = player.getActiveInventory();
                 final List<Item> inventoryItems = player.getInventory().getItems();
@@ -114,6 +129,13 @@ public class GameScene implements Drawable, Tickable {
                         inventoryItems.add(activeInventory.getSword());
                         activeInventory.setSword(null);
                     }
+//                    case TAKE_OFF_POISON -> {
+//                        if (activeInventory.getPoison() == null)
+//                            return;
+//
+//                        inventoryItems.add(activeInventory.getPoison());
+//                        activeInventory.setPoison(null);
+//                    }
                 }
             }
             default -> {
