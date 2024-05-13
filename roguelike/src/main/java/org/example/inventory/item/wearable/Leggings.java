@@ -5,6 +5,11 @@ import org.example.inventory.item.WearableItem;
 import java.awt.Color;
 
 public class Leggings extends WearableItem {
+    public Leggings() {
+        super(2, 0);
+    }
+    
+    
     @Override
     public String getIcon() {
         return "/\\";

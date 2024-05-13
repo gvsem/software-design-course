@@ -50,4 +50,19 @@ public class ActiveInventory {
       return swapped;
    }
 
+   public int getHpImprovement() {
+      return (helmet == null ? 0 : helmet.getHpImprovement())
+              + (plate == null ? 0 : plate.getHpImprovement())
+              + (leggings == null ? 0 : leggings.getHpImprovement())
+              + (boots == null ? 0 : boots.getHpImprovement())
+              + (sword == null ? 0 : sword.getHpImprovement());
+   }
+   
+   public int getStrengthImprovement() {
+      return (helmet == null ? 0 : helmet.getStrengthImprovement())
+              + (plate == null ? 0 : plate.getStrengthImprovement())
+              + (leggings == null ? 0 : leggings.getStrengthImprovement())
+              + (boots == null ? 0 : boots.getStrengthImprovement())
+              + (sword == null ? 0 : sword.getStrengthImprovement());
+   }
 }

@@ -6,6 +6,11 @@ import org.example.scene.Console;
 import java.awt.Color;
 
 public class Sword extends WearableItem {
+    public Sword() {
+        super(0, 3);
+    }
+    
+    
     @Override
     public String getIcon() {
         return "\uD83D\uDDE1";

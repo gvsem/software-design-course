@@ -162,12 +162,12 @@ public class StatePanel implements Drawable {
         int row = startRow;
         int col = startCol;
         
-        final String xpStr = String.format("XP: %d", player.getXp());
-        final String lvlStr = String.format("Lvl: %d", player.getXp());
-        console.drawString(row, col, xpStr, Color.BLACK, Color.WHITE);
+        console.drawString(row, col, String.format("XP: %d", player.getXp()), Color.BLACK, Color.WHITE);
         row++;
-        console.drawString(row, col, lvlStr, Color.BLACK, Color.WHITE);
-        row += 2;
+        console.drawString(row, col, String.format("Lvl: %d", player.getXp()), Color.BLACK, Color.WHITE);
+        row++;
+        console.drawString(row, col, String.format("Strength: %d", player.getStrength()), Color.BLACK, Color.WHITE);
+        row++;
         
         final long maxHp = player.getMaxHp();
         final long hp = player.getHp();
