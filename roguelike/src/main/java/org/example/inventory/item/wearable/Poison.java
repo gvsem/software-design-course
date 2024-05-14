@@ -5,6 +5,11 @@ import org.example.inventory.item.WearableItem;
 import java.awt.*;
 
 public class Poison extends WearableItem {
+    public Poison() {
+        super(0, 0);
+    }
+    
+    
     @Override
     public String getIcon() {
         return "\uD83E\uDDEA";

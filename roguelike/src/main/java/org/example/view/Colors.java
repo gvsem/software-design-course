@@ -3,8 +3,10 @@ package org.example.view;
 
 import com.googlecode.lanterna.TextColor;
 
+import java.awt.*;
+
 
 public class Colors {
-    public static final TextColor BLACK = new TextColor.RGB(0, 0, 0);
-    public static final TextColor WHITE = new TextColor.RGB(255, 255, 255);
+    public static final Color TEXT = Color.BLACK;
+    public static final Color BACKGROUND = Color.WHITE;
 }

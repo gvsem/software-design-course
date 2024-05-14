@@ -10,6 +10,7 @@ import org.example.inventory.ActiveInventory;
 import org.example.inventory.item.Item;
 import org.example.inventory.item.wearable.Poison;
 import org.example.level.util.Position;
+import org.example.view.Colors;
 import org.example.view.StatePanel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -155,8 +156,8 @@ public class GameScene implements Drawable, Tickable {
                     console.height() / 2,
                     (console.width() - quitMsg.length()) / 2,
                     quitMsg,
-                    Color.BLACK,
-                    Color.WHITE
+                    Colors.TEXT,
+                    Colors.BACKGROUND
             );
         }
     }
