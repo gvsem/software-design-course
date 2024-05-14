@@ -23,6 +23,7 @@ public class KeyStrokeToEventMapper {
                 case '3' -> TAKE_OFF_LEGGINGS;
                 case '4' -> TAKE_OFF_BOOTS;
                 case '5' -> TAKE_OFF_SWORD;
+                case '6' -> TAKE_OFF_POISON;
                 default -> null;
             };
             case Enter -> TAKE;

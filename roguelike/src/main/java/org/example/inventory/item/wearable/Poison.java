@@ -1,21 +1,18 @@
 package org.example.inventory.item.wearable;
 
 import org.example.inventory.item.WearableItem;
-import org.example.scene.Console;
 
-import java.awt.Color;
-import java.util.Random;
+import java.awt.*;
 
-
-public class Sword extends WearableItem {
-    public Sword() {
-        super(0, new Random().nextInt(3) + 1);
+public class Poison extends WearableItem {
+    public Poison() {
+        super(0, 0);
     }
     
     
     @Override
     public String getIcon() {
-        return "\uD83D\uDDE1";
+        return "\uD83E\uDDEA";
     }
 
     @Override

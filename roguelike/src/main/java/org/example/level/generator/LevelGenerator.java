@@ -1,5 +1,7 @@
 package org.example.level.generator;
 
+import org.example.GameContext;
+import org.example.entity.mob.MobFactory;
 import org.example.inventory.item.Item;
 import org.example.inventory.item.wearable.*;
 import org.example.level.Level;
@@ -12,11 +14,11 @@ import org.example.level.util.Position;
 
 public class LevelGenerator {
 
-    public static Level generateMainLevel() {
-        Integer WIDTH = 100;
-        Integer HEIGHT = 100;
+    public static Level generateMainLevel(GameContext gameContext) {
+        Integer WIDTH = 30;
+        Integer HEIGHT = 30;
         Integer NUMBER_OF_ITEMS = 10;
-        Integer NUMBER_OF_WALLS = 500;
+        Integer NUMBER_OF_WALLS = 30;
         Block[][] map = new Block[HEIGHT][WIDTH];
 
         for (int i = 0; i < NUMBER_OF_ITEMS; i++) {
@@ -24,13 +26,14 @@ public class LevelGenerator {
             int y = (int) (Math.random() * HEIGHT);
             if (map[y][x] == null) {
                 Item item = new Boots();
-                int itemType = (int) (Math.random() * 5);
+                int itemType = (int) (Math.random() * 6);
                 item = switch (itemType) {
                     case 0 -> new Boots();
                     case 1 -> new Helmet();
                     case 2 -> new Leggings();
                     case 3 -> new Plate();
                     case 4 -> new Sword();
+                    case 5 -> new Poison();
                     default -> item;
                 };
                 map[y][x] = new ItemBlock(item);
@@ -61,16 +64,19 @@ public class LevelGenerator {
             map[y][x] = new LeaveLevelBlock();
         }
 
-
-
-        return new Level(new Position(0, 0), map);
+        Level level = new Level(gameContext, map)
+                .spawnPlayer(new Position(0, 0));
+        return level
+                .spawn(MobFactory.createKiller(level, gameContext), new Position(WIDTH / 2, HEIGHT / 2))
+                .spawn(MobFactory.createStander(level, gameContext), new Position(WIDTH / 2 - 5, HEIGHT / 2 - 5))
+                .spawn(MobFactory.createCoward(level, gameContext), new Position(WIDTH / 2 + 5, HEIGHT / 2 + 5));
     }
 
-    public static Level generateBasicLevel() {
-        Level level = new Level(100, 100);
+    public static Level generateBasicLevel(GameContext gameContext) {
+        Level level = new Level(gameContext, 100, 100);
         level.getMap()[45][45] = new WallBlock();
         level.getMap()[66][66] = new LeaveLevelBlock();
-        level.setPlayerPosition(new Position(50, 50));
+        level.spawnPlayer(new Position(50, 50));
         return level;
     }
 

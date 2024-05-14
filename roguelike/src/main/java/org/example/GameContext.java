@@ -1,12 +1,14 @@
 package org.example;
 
 import org.example.entity.Player;
+import org.example.entity.mob.Mob;
 import org.example.level.Level;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -48,6 +50,11 @@ public class GameContext {
 
         public Builder registerLevel(String id, Level level) {
             context.levelCollection.put(id, level);
+            return this;
+        }
+
+        public Builder registerLevel(String id, Function<GameContext, Level> generator) {
+            context.levelCollection.put(id, generator.apply(context));
             return this;
         }
 
