@@ -4,10 +4,12 @@ import org.example.inventory.item.WearableItem;
 import org.example.scene.Console;
 
 import java.awt.Color;
+import java.util.Random;
+
 
 public class Sword extends WearableItem {
     public Sword() {
-        super(0, 3);
+        super(0, new Random().nextInt(3) + 1);
     }
     
     
