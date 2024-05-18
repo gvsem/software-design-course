@@ -17,6 +17,10 @@ public class CowardStrategy extends MoveStrategy {
         Position mobPosition = level.getPosition().get(owner.getId());
         Position playerPosition = level.getPlayerPosition();
 
+        if (mobPosition == null) {
+            return false;
+        }
+
         Position p = playerPosition.diff(mobPosition);
 
         int projX = p.x();

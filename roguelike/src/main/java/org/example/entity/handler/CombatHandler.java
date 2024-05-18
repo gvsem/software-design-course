@@ -15,7 +15,11 @@ public class CombatHandler {
     public static void fight(Entity a, Entity b) {
         LOGGER.debug("Combat: {}(hp={}, strength={}) vs {}(hp={}, strength={})",
                 a.getId(), a.getHp(), a.getStrength(), b.getId(), b.getHp(), b.getStrength());
-        
+
+        if (a.getClass().equals(b.getClass())) {
+            return;
+        }
+
         if (a.isDead() || b.isDead())
             return;
         
@@ -32,10 +36,20 @@ public class CombatHandler {
             player = (Player) b;
             mob = (Mob) a;
         }
-        
+
+
+        if (a.isDead() && a instanceof Mob) {
+            ((Mob) a).getMoveStrategy().getLevel().removeMob((Mob) a);
+        }
+
+        if (b.isDead() && b instanceof Mob) {
+            ((Mob) b).getMoveStrategy().getLevel().removeMob((Mob) b);
+        }
+
         if (player == null)
             return;
         
         XPHandler.addXP(player, mob);
+
     }
 }

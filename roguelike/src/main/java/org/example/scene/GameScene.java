@@ -37,7 +37,11 @@ public class GameScene implements Drawable, Tickable {
     
     public void submitEvent(Event event) {
         LOGGER.debug("Got event: {}", event);
-        
+
+        if (game.getCurrentLevel().playerIsDead()) {
+            return;
+        }
+
         if (aboutToQuit) {
             if (event == Event.QUIT)
                 running = false;
@@ -146,11 +150,23 @@ public class GameScene implements Drawable, Tickable {
     
     @Override
     public void draw(Console console) {
+
         this.game.getCurrentLevel().draw(console);
         this.statePanel.draw(console);
         
         if (aboutToQuit) {
             final String quitMsg = "Hit ESC again to quit or any other key to continue.";
+            console.drawString(
+                    console.height() / 2,
+                    (console.width() - quitMsg.length()) / 2,
+                    quitMsg,
+                    Color.BLACK,
+                    Color.WHITE
+            );
+        }
+
+        if (this.game.getCurrentLevel().playerIsDead()) {
+            final String quitMsg = "Game over, bro.";
             console.drawString(
                     console.height() / 2,
                     (console.width() - quitMsg.length()) / 2,

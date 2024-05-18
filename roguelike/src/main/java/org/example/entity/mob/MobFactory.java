@@ -13,17 +13,13 @@ import org.example.scene.Tickable;
 import lombok.Getter;
 import lombok.Setter;
 
-public class MobFactory  {
+public abstract class MobFactory  {
 
-    public static Mob createKiller(Level level, GameContext gameContext) {
-        return new Mob.Builder(10L, level, gameContext).setMoveStrategy(new AggressiveStrategy()).setIcon("\uD83E\uDD80").setId("killer").build();
-    }
+    public abstract Mob createKiller(Level level, GameContext gameContext);
 
-    public static Mob createStander(Level level, GameContext gameContext) {
-        return new Mob.Builder(10L, level, gameContext).setMoveStrategy(new NeutralStrategy()).setIcon("\uD83D\uDC70").setId("stander").build();
-    }
+    public abstract Mob createStander(Level level, GameContext gameContext);
 
-    public static Mob createCoward(Level level, GameContext gameContext) {
-        return new Mob.Builder(10L, level, gameContext).setMoveStrategy(new CowardStrategy()).setIcon("\uD83D\uDC2D").setId("coward").build();
-    }
+    public abstract Mob createCoward(Level level, GameContext gameContext);
+
+    public abstract Mob createReplicable(Level level, GameContext gameContext);
 }
