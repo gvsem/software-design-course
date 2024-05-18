@@ -6,9 +6,9 @@ import java.awt.*;
 
 public class Poison extends WearableItem {
     public Poison() {
-        super(2,2);
+        super(0, 0);
     }
-
+    
     @Override
     public String getIcon() {
         return "\uD83E\uDDEA";
