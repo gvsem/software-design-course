@@ -60,6 +60,21 @@ public class Level implements Drawable, Tickable, Cloneable {
         return this.map.length;
     }
 
+    public void removeMob(Mob mob) {
+        String entityId = mob.getId();
+        if (this.position.containsKey(entityId)) {
+            int x, y;
+            x = this.position.get(entityId).x();
+            y = this.position.get(entityId).y();
+            this.entityPositionCache[x][y] = null;
+        }
+        this.position.remove(entityId);
+    }
+
+    public boolean playerIsDead() {
+        return entities.get("player").isDead();
+    }
+
     private synchronized void setEntityPosition(String entityId, Position position) {
         if (this.position.containsKey(entityId)) {
             int x, y;
@@ -78,8 +93,14 @@ public class Level implements Drawable, Tickable, Cloneable {
     }
 
     public synchronized Level spawn(Mob entity, Position position) {
-        this.entities.put(entity.getId(), entity);
-        this.setEntityPosition(entity.getId(), position);
+        if (0 <= position.x() && position.x() < getWidth() && 0 <= position.y() && position.y() < getHeight()) {
+            if (this.entityPositionCache[position.x()][position.y()] != null) {
+                return this;
+            }
+            this.entities.put(entity.getId(), entity);
+            this.setEntityPosition(entity.getId(), position);
+        }
+
         return this;
     }
 
@@ -88,6 +109,10 @@ public class Level implements Drawable, Tickable, Cloneable {
     }
 
     public synchronized boolean tryMove(GameContext context, Entity entity, MoveDirection direction) {
+        if (!this.position.containsKey(entity.getId())) {
+            return false;
+        }
+
         int x = this.position.get(entity.getId()).x();
         int y = this.position.get(entity.getId()).y();
         switch (direction) {

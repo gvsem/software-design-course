@@ -9,7 +9,6 @@ public class Poison extends WearableItem {
         super(0, 0);
     }
     
-    
     @Override
     public String getIcon() {
         return "\uD83E\uDDEA";

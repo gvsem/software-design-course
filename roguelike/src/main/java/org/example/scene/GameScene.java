@@ -38,7 +38,11 @@ public class GameScene implements Drawable, Tickable {
     
     public void submitEvent(Event event) {
         LOGGER.debug("Got event: {}", event);
-        
+
+        if (game.getCurrentLevel().playerIsDead()) {
+            return;
+        }
+
         if (aboutToQuit) {
             if (event == Event.QUIT)
                 running = false;
@@ -147,6 +151,7 @@ public class GameScene implements Drawable, Tickable {
     
     @Override
     public void draw(Console console) {
+
         this.game.getCurrentLevel().draw(console);
         this.statePanel.draw(console);
         
@@ -158,6 +163,17 @@ public class GameScene implements Drawable, Tickable {
                     quitMsg,
                     Colors.TEXT,
                     Colors.BACKGROUND
+            );
+        }
+
+        if (this.game.getCurrentLevel().playerIsDead()) {
+            final String quitMsg = "Game over, bro.";
+            console.drawString(
+                    console.height() / 2,
+                    (console.width() - quitMsg.length()) / 2,
+                    quitMsg,
+                    Color.BLACK,
+                    Color.WHITE
             );
         }
     }

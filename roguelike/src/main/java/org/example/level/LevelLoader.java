@@ -1,4 +1,4 @@
-package org.example.level.loader;
+package org.example.level;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 

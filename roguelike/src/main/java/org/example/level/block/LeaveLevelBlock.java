@@ -14,8 +14,12 @@ public class LeaveLevelBlock extends Block {
 
     @Override
     public boolean onVisit(Entity entity, MoveDirection direction, GameContext context) {
-        context.leaveLevel();
-        return true;
+        if (entity.getId().equals("player")) {
+            context.leaveLevel();
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Override

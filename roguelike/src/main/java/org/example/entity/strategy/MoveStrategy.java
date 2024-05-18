@@ -8,7 +8,7 @@ import org.example.scene.Tickable;
 import lombok.Getter;
 import lombok.Setter;
 
-public abstract class MoveStrategy implements Tickable {
+public abstract class MoveStrategy implements Tickable, Cloneable {
 
     @Getter @Setter
     protected Mob owner = null;
@@ -31,5 +31,19 @@ public abstract class MoveStrategy implements Tickable {
     @Override
     public boolean tick(Long time) {
         return false;
+    }
+
+    @Override
+    public MoveStrategy clone() {
+        try {
+            MoveStrategy clone = (MoveStrategy) super.clone();
+            clone.ticksToPassOneBlock = ticksToPassOneBlock;
+            clone.gameContext = gameContext;
+            clone.level = level;
+            clone.owner = owner;
+            return clone;
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
     }
 }

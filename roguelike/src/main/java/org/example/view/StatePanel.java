@@ -201,7 +201,12 @@ public class StatePanel implements Drawable {
         
         final long maxHp = player.getMaxHp();
         final long hp = player.getHp();
-        for (int i = 0; i < hp; i++) {
+
+        final long emptyHearts = (10L * (maxHp - hp) / maxHp);
+        final long fullHearts = 10 - emptyHearts;
+
+
+        for (int i = 0; i < fullHearts; i++) {
             console.drawEmoji(row, col, "🩷");
             col += 2;
             if (col - startCol >= 10) {
@@ -209,7 +214,7 @@ public class StatePanel implements Drawable {
                 row += 1;
             }
         }
-        for (int i = 0; i < maxHp - hp; i++) {
+        for (int i = 0; i < emptyHearts; i++) {
             console.drawEmoji(row, col, "💔");
             col += 2;
             if (col - startCol >= 10) {

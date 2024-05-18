@@ -17,7 +17,7 @@ public class Player extends Entity {
     
     
     public Player() {
-        super(10);
+        super(20);
         xp = 0;
         level = 1;
     }

@@ -9,6 +9,7 @@ import org.example.level.util.Position;
 import org.example.scene.Drawable;
 import org.example.scene.Tickable;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.UUID;
 
 import lombok.Getter;
@@ -22,9 +23,10 @@ public class Mob extends Entity implements Tickable {
     @Getter @Setter
     protected String id = UUID.randomUUID().toString().substring(0, 5);
 
-    private String icon = "  ";
+    @Setter
+    protected String icon = "  ";
 
-    protected Mob(Long initialHp) {super(initialHp); }
+    protected Mob(Long initialHp, int strength) {super(initialHp, strength); }
 
     protected Mob() {
         super(0);
@@ -36,8 +38,14 @@ public class Mob extends Entity implements Tickable {
 
         private final GameContext gameContext;
 
-        public Builder(Long initialHp, Level level, GameContext gameContext) {
-            this.object = new Mob(initialHp);
+        public Builder(Class<? extends Mob> clazz, Long initialHp, int strength, Level level, GameContext gameContext) {
+            try {
+                var constructor = clazz.getDeclaredConstructor(Long.class, int.class);
+                constructor.setAccessible(true);
+                this.object = constructor.newInstance(initialHp, strength);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
             this.level = level;
             this.gameContext = gameContext;
         }
@@ -67,7 +75,11 @@ public class Mob extends Entity implements Tickable {
 
     @Override
     public boolean tick(Long time) {
-        return moveStrategy.tick(time);
+        if (!isDead()) {
+            return moveStrategy.tick(time);
+        } else {
+            return false;
+        }
     }
 
     @Override
