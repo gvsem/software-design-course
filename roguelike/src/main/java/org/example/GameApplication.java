@@ -14,16 +14,26 @@ import com.googlecode.lanterna.screen.TerminalScreen;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.Terminal;
 
-import org.example.scene.Console;
+import org.example.game.GameContext;
+import org.example.game.GameFactory;
+import org.example.scene.util.Console;
 import org.example.scene.GameScene;
-import org.example.util.KeyStrokeToEventMapper;
-import org.example.view.Colors;
+import org.example.controller.CommandMapper;
+import org.example.controller.view.Colors;
 
 import java.awt.Color;
 import java.io.IOException;
 
 
+/**
+ * Main class initializing user interface and processing I/O events
+ */
 public class GameApplication implements Console {
+
+    public static void main(String[] args) {
+        GameApplication app = new GameApplication(GameFactory.createBasicGame());
+    }
+
     private final GameScene scene;
     private final Terminal terminal;
     private final Screen screen;
@@ -53,87 +63,32 @@ public class GameApplication implements Console {
         }
         new Thread(new RenderTask()).start();
     }
-
-    private class RenderTask implements Runnable {
-        @Override
-        public void run() {
-            try {
-                long time = 0L;
-                while (scene.isRunning()) {
-                    try {
-                        Thread.sleep(50);
-
-                        KeyStroke keyStroke = screen.pollInput();
-                        while (keyStroke != null) {
-                            if (keyStroke.getKeyType().equals(KeyType.EOF)) {
-                                exit(0);
-                            }
-
-                            scene.submitEvent(KeyStrokeToEventMapper.map(keyStroke));
-                            keyStroke = screen.pollInput();
-                        }
-
-                        scene.tick(time++);
-                        render();
-                        screen.refresh();
-                    } catch (InterruptedException ignored) {}
-                }
-                screen.stopScreen();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        }
-    }
-    
-    private void render() {
-        try {
-            this.terminal.clearScreen();
-            textGraphics = terminal.newTextGraphics();
-            textGraphics.setBackgroundColor(new TextColor.RGB(255,255,255));
-            scene.draw(this);
-            this.terminal.flush();
-        } catch (IOException e) {}
-    }
-    
-    public static void main(String[] args) {
-        GameApplication app = new GameApplication(GameFactory.createBasicGame());
-    }
-    
-    
-    private TextColor toTextColor(Color color) {
-        return new TextColor.RGB(color.getRed(), color.getGreen(), color.getBlue());
-    }
-    
     
     @Override
     public void drawEmoji(int row, int col, String emoji) {
         textGraphics.setCharacter(col, row, TextCharacter.fromString(emoji)[0].withBackgroundColor(BACKGROUND_TEXTCOLOR));
     }
     
-    
     @Override
     public void drawEmoji(String emoji) {
         try {
             textGraphics.setCharacter(terminal.getCursorPosition(), TextCharacter.fromString(emoji)[0].withBackgroundColor(BACKGROUND_TEXTCOLOR));
-        } catch (IOException e) {}
+        } catch (IOException ignored) {}
     }
-    
     
     @Override
     public void drawEmoji(int row, int col, String emoji, Color background) {
         textGraphics.setCharacter(col, row, TextCharacter.fromString(emoji)[0].withBackgroundColor(toTextColor(background)));
     }
     
-    
     @Override
     public void drawString(int row, int col, String text, Color color) {
         try {
             terminal.setForegroundColor(toTextColor(color));
             textGraphics.putString(col, row, text);
-        } catch (IOException e) {
+        } catch (IOException ignored) {
         }
     }
-    
     
     @Override
     public void drawString(String text, Color color) {
@@ -141,7 +96,7 @@ public class GameApplication implements Console {
             textGraphics.setBackgroundColor(BACKGROUND_TEXTCOLOR);
             textGraphics.setForegroundColor(toTextColor(color));
             textGraphics.putString(terminal.getCursorPosition(), text);
-        } catch (IOException e) {}
+        } catch (IOException ignored) {}
     }
     
     @Override
@@ -150,7 +105,7 @@ public class GameApplication implements Console {
             textGraphics.setBackgroundColor(toTextColor(background));
             textGraphics.setForegroundColor(toTextColor(color));
             textGraphics.putString(terminal.getCursorPosition(), text);
-        } catch (IOException e) {}
+        } catch (IOException ignored) {}
     }
     
     @Override
@@ -177,5 +132,50 @@ public class GameApplication implements Console {
     @Override
     public int height() {
         return HEIGHT;
+    }
+
+    private class RenderTask implements Runnable {
+        @Override
+        public void run() {
+            try {
+                long time = 0L;
+                while (scene.isRunning()) {
+                    try {
+                        Thread.sleep(50);
+
+                        KeyStroke keyStroke = screen.pollInput();
+                        while (keyStroke != null) {
+                            if (keyStroke.getKeyType().equals(KeyType.EOF)) {
+                                exit(0);
+                            }
+
+                            scene.submit(CommandMapper.map(keyStroke));
+                            keyStroke = screen.pollInput();
+                        }
+
+                        scene.tick(time++);
+                        render();
+                        screen.refresh();
+                    } catch (InterruptedException ignored) {}
+                }
+                screen.stopScreen();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+    private void render() {
+        try {
+            this.terminal.clearScreen();
+            textGraphics = terminal.newTextGraphics();
+            textGraphics.setBackgroundColor(new TextColor.RGB(255,255,255));
+            scene.draw(this);
+            this.terminal.flush();
+        } catch (IOException ignored) {}
+    }
+
+    private TextColor toTextColor(Color color) {
+        return new TextColor.RGB(color.getRed(), color.getGreen(), color.getBlue());
     }
 }

@@ -1,27 +1,22 @@
 package org.example.scene;
 
-
 import lombok.Getter;
-import org.example.Event;
-import org.example.GameContext;
-import org.example.entity.MoveDirection;
-import org.example.entity.Player;
-import org.example.inventory.ActiveInventory;
-import org.example.inventory.item.Item;
-import org.example.inventory.item.wearable.Poison;
-import org.example.level.util.Position;
+import org.example.game.GameContext;
 import org.example.scene.command.Command;
 import org.example.scene.command.QuitCommand;
-import org.example.view.Colors;
-import org.example.view.StatePanel;
+import org.example.scene.util.Commandable;
+import org.example.scene.util.Console;
+import org.example.scene.util.Drawable;
+import org.example.scene.util.Tickable;
+import org.example.controller.view.Colors;
+import org.example.controller.view.StatePanel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.awt.*;
-import java.util.List;
+import java.awt.Color;
 
 
-public class GameScene implements Drawable, Tickable {
+public class GameScene implements Drawable, Tickable, Commandable {
     private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
     @Getter
     private boolean running = false;
@@ -30,19 +25,14 @@ public class GameScene implements Drawable, Tickable {
     private final GameContext game;
     public final StatePanel statePanel;
     
-    
     public GameScene(GameContext game) {
         this.game = game;
         this.statePanel = new StatePanel(game);
         this.running = true;
     }
 
-    public void quit() {
-        aboutToQuit = true;
-    }
-
-    public void submitEvent(Command command) {
-
+    @Override
+    public void submit(Command command) {
         if (command == null || game.getCurrentLevel().playerIsDead()) {
             return;
         }
@@ -61,7 +51,6 @@ public class GameScene implements Drawable, Tickable {
         }
 
         command.run(this, this.game);
-
     }
     
     
@@ -97,5 +86,9 @@ public class GameScene implements Drawable, Tickable {
     @Override
     public boolean tick(Long time) {
         return game.getCurrentLevel().tick(time);
+    }
+
+    public void quit() {
+        aboutToQuit = true;
     }
 }

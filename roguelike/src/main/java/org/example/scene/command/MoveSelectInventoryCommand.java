@@ -1,14 +1,11 @@
 package org.example.scene.command;
 
-import org.example.GameContext;
-import org.example.entity.Player;
-import org.example.inventory.ActiveInventory;
-import org.example.inventory.item.Item;
-import org.example.inventory.item.WearableItem;
+import org.example.game.GameContext;
 import org.example.scene.GameScene;
 
-import java.util.List;
-
+/**
+ * Command to navigate within player inventory
+ */
 public class MoveSelectInventoryCommand extends Command {
 
     public enum MoveSelectType {
@@ -22,8 +19,8 @@ public class MoveSelectInventoryCommand extends Command {
     @Override
     public void run(GameScene scene, GameContext game) {
         switch (type) {
-            case Left -> scene.statePanel.decFocusedInventoryTile();
-            case Right -> scene.statePanel.incFocusedInventoryTile();
+            case Left -> scene.statePanel.moveInventorySelectorLeft();
+            case Right -> scene.statePanel.moveInventorySelectorRight();
         }
     }
 

@@ -1,9 +1,12 @@
 package org.example.scene.command;
 
-import org.example.GameContext;
-import org.example.entity.MoveDirection;
+import org.example.game.GameContext;
+import org.example.game.entity.MoveDirection;
 import org.example.scene.GameScene;
 
+/**
+ * Command to move player on the level
+ */
 public class MoveCommand extends Command {
 
     private final MoveDirection direction;
