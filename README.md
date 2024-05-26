@@ -25,4 +25,6 @@
 
 ![](./class-work/gitclassUML.png)
 
+![](./class-work/gitcomponentsUML.png)
+
 Задача №10. DDD TODO
