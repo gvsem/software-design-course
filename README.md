@@ -23,6 +23,6 @@
 
 Задача №9. Git TODO
 
-![](./class_work/gitclassUML.png)
+![](./class-work/gitclassUML.png)
 
 Задача №10. DDD TODO
