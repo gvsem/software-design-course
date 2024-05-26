@@ -17,8 +17,10 @@
 
 Задание №5. Задача про Bash #4 - см. [наш пулл-реквест к другой команде](https://github.com/HaskSy/oh-my-gosh/pull/5)
 
-Задача №4-5. Диаграммы -> см. [ветку hw5](https://github.com/gvsem/software-design-course/tree/hw5/class-work)
+Задача №3-5. Диаграммы -> см. [class3.png, (usecase, activity, bpmn) за 4-ую, (microwave state, sequence, TODO TIME )](https://github.com/gvsem/software-design-course/tree/hw5/class-work)
 
 Задания №6-10. Рогалик -> см. [отдельную доку](./roguelike/)
 
-TODO. Добавить ссылки и перечень заданий на практиках с домашками (гит, еще диаграммы и пр.)
+Задача №9. Git TODO
+
+Задача №10. DDD TODO
