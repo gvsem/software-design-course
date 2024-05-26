@@ -14,27 +14,12 @@ public class CowardStrategy extends MoveStrategy {
             return false;
         }
 
-        Position mobPosition = level.getPosition().get(owner.getId());
         Position playerPosition = level.getPlayerPosition();
-
-        if (mobPosition == null) {
-            return false;
+        if (getLevel().tryMove(gameContext, owner, directionTowards(playerPosition).inverse())) {
+            return true;
         }
 
-        Position p = playerPosition.diff(mobPosition);
+        return tryMoveIfOriginalFailed(directionTowards(playerPosition).inverse());
 
-        int projX = p.x();
-        int projY = p.y();
-        MoveDirection md;
-
-        if (Math.abs(projX) > Math.abs(projY)) {
-            if (projX > 0) md = MoveDirection.LEFT;
-            else md = MoveDirection.RIGHT;
-        } else {
-            if (projY < 0) md = MoveDirection.DOWN;
-            else md = MoveDirection.UP;
-        }
-
-        return getLevel().tryMove(gameContext, owner, md);
     }
 }

@@ -21,4 +21,32 @@ public enum MoveDirection {
         }
     }
 
+    public MoveDirection inverse() {
+        return switch(this) {
+            case UP -> DOWN;
+            case DOWN -> UP;
+            case LEFT -> RIGHT;
+            case RIGHT -> LEFT;
+        };
+    }
+
+    public MoveDirection next() {
+        return switch(this) {
+            case UP -> RIGHT;
+            case DOWN -> LEFT;
+            case LEFT -> UP;
+            case RIGHT -> DOWN;
+        };
+    }
+
+    public MoveDirection prev() {
+        return switch(this) {
+            case UP -> LEFT;
+            case DOWN -> RIGHT;
+            case LEFT -> DOWN;
+            case RIGHT -> UP;
+        };
+    }
+
+
 }

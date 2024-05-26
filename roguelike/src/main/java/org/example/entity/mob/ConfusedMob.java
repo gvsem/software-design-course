@@ -12,14 +12,16 @@ public class ConfusedMob extends Mob {
     @Getter
     private Long endTime;
 
+    private final MoveStrategy moveStrategy = new ConfusedStrategy();
+
     public ConfusedMob(Mob mob, Long endTime) {
         super();
         this.mob = mob;
         this.endTime = endTime;
-        this.moveStrategy = new ConfusedStrategy();
-        this.moveStrategy.setLevel(mob.getMoveStrategy().getLevel());
+        this.mobState = mob.getMobState();
+        this.moveStrategy.setLevel(mob.mobState.getStrategy().getLevel());
         this.moveStrategy.setOwner(this);
-        this.moveStrategy.setGameContext(mob.getMoveStrategy().getGameContext());
+        this.moveStrategy.setGameContext(mob.mobState.getStrategy().getGameContext());
     }
 
     @Override
@@ -85,18 +87,8 @@ public class ConfusedMob extends Mob {
     }
 
     @Override
-    public void setMoveStrategy(MoveStrategy moveStrategy) {
-        mob.setMoveStrategy(moveStrategy);
-    }
-
-    @Override
     public String getId() {
         return mob.getId();
-    }
-
-    @Override
-    public MoveStrategy getMoveStrategy() {
-        return mob.getMoveStrategy();
     }
 
     @Override

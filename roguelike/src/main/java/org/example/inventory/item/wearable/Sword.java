@@ -27,4 +27,9 @@ public class Sword extends WearableItem {
     public boolean isEmojiIcon() {
         return true;
     }
+
+    @Override
+    public WearableType getWearableType() {
+        return WearableType.Sword;
+    }
 }

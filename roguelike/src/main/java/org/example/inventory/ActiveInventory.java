@@ -1,6 +1,7 @@
 package org.example.inventory;
 
 import org.example.inventory.item.Item;
+import org.example.inventory.item.WearableItem;
 import org.example.inventory.item.wearable.*;
 
 import lombok.Getter;
@@ -22,7 +23,28 @@ public class ActiveInventory {
 
    @Getter @Setter
    private Sword sword = null;
-   
+
+   public WearableItem get(WearableItem.WearableType type) {
+      return switch (type) {
+         case Boots -> boots;
+         case Plate -> plate;
+         case Helmet -> helmet;
+         case Sword -> sword;
+         case Leggings -> leggings;
+         default -> null;
+      };
+   }
+
+   public void remove(WearableItem.WearableType type) {
+      switch (type) {
+         case Boots -> boots = null;
+         case Plate -> plate = null;
+         case Helmet -> helmet = null;
+         case Sword -> sword = null;
+         case Leggings -> leggings = null;
+      }
+   }
+
    public Item swap(Item item) {
       Item swapped = null;
       

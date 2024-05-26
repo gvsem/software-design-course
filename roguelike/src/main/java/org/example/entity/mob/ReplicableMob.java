@@ -28,14 +28,14 @@ public class ReplicableMob extends Mob implements Cloneable {
         boolean res = super.tick(time);
         if (time % 50 == 0) {
             if (new Random().nextDouble() < replicationProbability) {
-                Position currPos = this.moveStrategy.getLevel().getPosition().get(this.getId());
+                Position currPos = this.mobState.getStrategy().getLevel().getPosition().get(this.getId());
                 if (currPos == null) {
                     return res;
                 }
                 Position newPos = currPos.add(MoveDirection.random());
-                replicationProbability *= 0.75;
+                replicationProbability *= 0.5;
                 ReplicableMob newMob = this.clone();
-                getMoveStrategy().getLevel().spawn(newMob, newPos);
+                this.mobState.getStrategy().getLevel().spawn(newMob, newPos);
             }
         }
         return res;
@@ -45,8 +45,8 @@ public class ReplicableMob extends Mob implements Cloneable {
     protected ReplicableMob clone() {
         ReplicableMob mob = new ReplicableMob(this.getMaxHp(), this.getStrength());
         mob.replicationProbability = replicationProbability;
-        mob.setMoveStrategy(getMoveStrategy().clone());
-        mob.getMoveStrategy().setOwner(mob);
+        mob.mobState = mobState.clone();
+        mob.mobState.getStrategy().setOwner(mob);
         mob.setIcon(getIcon());
         return mob;
     }

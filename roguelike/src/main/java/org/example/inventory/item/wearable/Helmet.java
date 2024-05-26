@@ -21,4 +21,9 @@ public class Helmet extends WearableItem {
     public Color getColor() {
         return Color.BLUE;
     }
+
+    @Override
+    public WearableType getWearableType() {
+        return WearableType.Helmet;
+    }
 }

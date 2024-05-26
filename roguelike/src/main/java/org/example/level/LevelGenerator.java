@@ -7,6 +7,7 @@ import org.example.entity.mob.MobFactory;
 import org.example.inventory.item.Item;
 import org.example.inventory.item.wearable.*;
 import org.example.level.Level;
+import org.example.level.block.HealBlock;
 import org.example.level.block.LeaveLevelBlock;
 import org.example.level.block.Block;
 import org.example.level.block.EmptyBlock;
@@ -35,6 +36,10 @@ public class LevelGenerator {
     private Position spawnPlayerPosition = new Position(0, 0);
     @Getter @Setter
     private Integer numberOfItems = 10;
+
+    @Getter @Setter
+    private Integer numberOfHeals = 10;
+
     @Getter @Setter
     private MobFactory mobFactory = new ClassicMobFactory();
 
@@ -99,6 +104,14 @@ public class LevelGenerator {
             int y = (int) (Math.random() * height);
             if (map[y][x] == null) {
                 map[y][x] = new WallBlock();
+            }
+        }
+
+        for (int i = 0; i < numberOfHeals; i++) {
+            int x = (int) (Math.random() * width);
+            int y = (int) (Math.random() * height);
+            if (map[y][x] == null) {
+                map[y][x] = new HealBlock();
             }
         }
 

@@ -17,7 +17,7 @@ public class HealBlock extends Block {
     @Override
     public boolean onVisit(Entity entity, MoveDirection direction, GameContext context) {
         if (!taken) {
-            context.getPlayer().heal(1);
+            entity.heal(1);
             icon = "  ";
             taken = true;
         }
@@ -41,5 +41,9 @@ public class HealBlock extends Block {
     @Override
     public HealBlock clone() {
         return (HealBlock) super.clone();
+    }
+
+    public boolean isTaken() {
+        return taken;
     }
 }

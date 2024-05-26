@@ -39,11 +39,11 @@ public class CombatHandler {
 
 
         if (a.isDead() && a instanceof Mob) {
-            ((Mob) a).getMoveStrategy().getLevel().removeMob((Mob) a);
+            ((Mob) a).getMobState().getStrategy().getLevel().removeMob((Mob) a);
         }
 
         if (b.isDead() && b instanceof Mob) {
-            ((Mob) b).getMoveStrategy().getLevel().removeMob((Mob) b);
+            ((Mob) b).getMobState().getStrategy().getLevel().removeMob((Mob) b);
         }
 
         if (player == null)

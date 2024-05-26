@@ -3,6 +3,7 @@ package org.example.level.block;
 import org.example.GameContext;
 import org.example.entity.Entity;
 import org.example.entity.MoveDirection;
+import org.example.entity.Player;
 import org.example.inventory.item.Item;
 import org.example.scene.Console;
 
@@ -22,7 +23,9 @@ public class ItemBlock extends Block {
     @Override
     public boolean onVisit(Entity entity, MoveDirection direction, GameContext context) {
         if (!taken) {
-            context.getPlayer().getInventory().getItems().add(prototype.clone());
+            if (entity instanceof Player) {
+                context.getPlayer().getInventory().getItems().add(prototype.clone());
+            }
             this.icon = "  ";
             taken = true;
         }

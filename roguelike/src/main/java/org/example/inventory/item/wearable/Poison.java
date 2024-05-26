@@ -23,4 +23,9 @@ public class Poison extends WearableItem {
     public boolean isEmojiIcon() {
         return true;
     }
+
+    @Override
+    public WearableType getWearableType() {
+        return WearableType.NotWearable;
+    }
 }

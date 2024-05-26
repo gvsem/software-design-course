@@ -21,4 +21,10 @@ public class Plate extends WearableItem {
     public Color getColor() {
         return Color.BLUE;
     }
+
+    @Override
+    public WearableType getWearableType() {
+        return WearableType.Plate;
+    }
+
 }
