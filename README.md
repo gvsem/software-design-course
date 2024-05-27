@@ -7,21 +7,27 @@
 
 ## Задачи
 
-[Задание №1. Задача про CLI](./hw1-cli/)
+### [Задание №1. Задача про CLI](./hw1-cli/)
 
-[Задание №2. Задача про Bash #1](./hw2-bash1/)
+### [Задание №2. Задача про Bash #1](./hw2-bash1/)
 
-[Задание №3. Задача про Bash #2](./hw3-bash2/)
+### [Задание №3. Задача про Bash #2](./hw3-bash2/)
 
-Задание №4. Задача про Bash #3 - добавить grep (без отдельной страницы)
+### Задание №4. Задача про Bash #3 - добавить grep (без отдельной страницы)
 
-Задание №5. Задача про Bash #4 - см. [наш пулл-реквест к другой команде](https://github.com/HaskSy/oh-my-gosh/pull/5)
+### Задание №5. Задача про Bash #4
 
-Задача №3-5. Диаграммы -> см. [class3.png, (usecase, activity, bpmn) за 4-ую, (microwave state, sequence, TODO TIME )](https://github.com/gvsem/software-design-course/tree/hw5/class-work)
+см. [наш пулл-реквест к другой команде](https://github.com/HaskSy/oh-my-gosh/pull/5)
 
-Задания №6-10. Рогалик -> см. [отдельную доку](./roguelike/)
+### Задача №3-5. Диаграммы
 
-Задача №9. Git
+см. [class3.png, (usecase, activity, bpmn) за 4-ую, (microwave state, sequence, time )](https://github.com/gvsem/software-design-course/tree/hw5/class-work)
+
+### Задания №6-10. Рогалик
+
+см. [отдельную доку](./roguelike/)
+
+### Задача №9. Git
 
 [Диаграммы](./class-work/git.svg)
 
@@ -52,7 +58,7 @@
 Команды представляются в виде названия команды и ее аргументов. Каждой команде сответствует отдельный класс, являющийся наледником абстрактного класса Command (аналогично тому, что было в Bash).
 
 
-Задача №10. DDD
+### Задача №10. DDD
 
 [Диаграммы](./class-work/books.svg)
 
